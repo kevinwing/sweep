@@ -8,27 +8,27 @@
  * 
  */
 
+#ifndef GAME_H
+#define GAME_H
 
-#include "board.h"
+#include "../include/board.h"
+#include <vector>
+#include <iostream>
 
-#ifndef TEMPLATE_H
-#define TEMPLATE_H
+using std::cout;
+using std::vector;
 
 class Game
 {
 public:
 	Game();
-	~Game();
-
 	void run();
-
     void input();
-
     void update();
-
     bool gameOver();
+	Board board();
 private:
-	Board board;
+	Board mBoard;
 };
 
 #endif
