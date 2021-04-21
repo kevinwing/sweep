@@ -16,23 +16,29 @@
 #include <vector>
 #include <iostream>
 
+using std::cout;
+using std::vector;
+
 class Board
 {
 public:
-	Board(int mines = 5, int x = 5, int y = 5)
+	Board(int mines = 5, int x = 5, int y = 5, vector<vector<char>> m = {})
 	{
 		mMines = mines;
 		mWidth = x;
 		mHeight = y;
+		matrix = m;
 	}
+	void setUp();
 	void print();
+	void layMines();
 	void setWidth(int width);
 	void setHeight(int height);
 private:
-	int mMines = 10;
-    int mWidth = 10;
-    int mHeight = 10;
-	char bomb = 'B';
+	int mMines;
+    int mWidth;
+    int mHeight;
+	vector<vector<char>> matrix;
 };
 
 #endif

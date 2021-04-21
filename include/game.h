@@ -11,9 +11,9 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "../include/board.h"
 #include <vector>
 #include <iostream>
+#include "board.h"
 
 using std::cout;
 using std::vector;
@@ -26,7 +26,7 @@ public:
     void input();
     void update();
     bool gameOver();
-	Board board();
+	Board getBoard();
 private:
 	Board mBoard;
 };

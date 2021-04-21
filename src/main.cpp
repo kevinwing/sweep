@@ -8,13 +8,18 @@
  * 
  */
 
-#include "../include/game.h"
 #include <iostream>
 #include <vector>
+#include "game.h"
 
 int main()
-{
-	Board board;
+{	
+	Game game;
+	Board board = game.getBoard();
+	board.setUp();
+	board.print();
+	std::cout << '\n';
+	board.layMines();
 	board.print();
 	return 0;
 }

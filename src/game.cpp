@@ -9,10 +9,14 @@
  * 
  */
 
-#include "../include/game.h"
+#include "game.h"
 
-Board Game::board()
+Game::Game()
 {
-    Board b = mBoard;
-    return b;
+    
+}
+
+Board Game::getBoard()
+{
+    return mBoard;
 }
