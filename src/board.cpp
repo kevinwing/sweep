@@ -4,14 +4,12 @@
  * @brief Spring 2021 CS151 final project - Minesweeper
  *         cpp function file
  * @date 2021-04-14
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 
 #include "game.h"
-#include <cstdlib>
-#include <ctime>
 
 void Board::setUp()
 {
@@ -52,5 +50,44 @@ void Board::layMines()
             matrix[x][y] = 'B';
             num--;
         }
+    }
+}
+
+/**
+ * @brief Check cell and if mine, end game. Else, check surrounding cells recursively
+ *
+ * @param x
+ * @param y
+ * @return true
+ * @return false
+ */
+void Board::checkCell(int x, int y)
+{
+    // base case 1: out of bounds
+    if ((x < 0 || y < 0) || (x > mWidth || y > mHeight))
+    {
+        return;
+    }
+    // base case 2: current cell is bomb
+    if (matrix[x][y] == 'B') // is mine, game over
+    {
+        // if not clicked cell, return
+        // else
+            // set current cell mine to red?
+            // expose board
+            // end game
+    }
+    // recursive case
+    else if ((x >=0 && y >= 0) && (x <= mWidth && y >= mHeight))
+    {
+        matrix[x][y] = '_';         // reveal cell
+        checkCell(x - 1, y);        // check left cell
+        checkCell(x, y - 1);        // check top cell
+        checkCell(x + 1, y);        // check right cell
+        checkCell(x, y + 1);        // check bottom
+        checkCell(x - 1, y - 1);    // check upper left
+        checkCell(x + 1, y - 1);    // check upper right
+        checkCell(x + 1, y + 1);    // check lower right
+        checkCell(x - 1, y + 1);    // check lower left
     }
 }

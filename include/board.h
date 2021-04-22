@@ -1,12 +1,12 @@
 /**
  * @file board.h
  * @author your name (you@domain.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-04-19
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 
 
@@ -15,6 +15,8 @@
 
 #include <vector>
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 using std::cout;
 using std::vector;
@@ -34,6 +36,9 @@ public:
 	void layMines();
 	void setWidth(int width);
 	void setHeight(int height);
+
+	void checkCell(int x, int y);
+
 private:
 	int mMines;
     int mWidth;
