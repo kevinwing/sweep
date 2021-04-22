@@ -9,4 +9,14 @@
  * 
  */
 
-#include "template.h"
+#include "game.h"
+
+Game::Game()
+{
+    
+}
+
+Board Game::getBoard()
+{
+    return mBoard;
+}

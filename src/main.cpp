@@ -8,11 +8,18 @@
  * 
  */
 
-#include "template.h"
-#include "board.h"
 #include <iostream>
+#include <vector>
+#include "game.h"
 
-int main(int argc, char *argv[])
-{
-	std::cout << "Hello world!" << std::endl;
+int main()
+{	
+	Game game;
+	Board board = game.getBoard();
+	board.setUp();
+	board.print();
+	std::cout << '\n';
+	board.layMines();
+	board.print();
+	return 0;
 }
