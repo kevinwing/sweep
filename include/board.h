@@ -44,6 +44,9 @@ private:
     int mWidth;
     int mHeight;
 	vector<vector<char>> matrix;
+	
+	void checkCell(int x, int y, bool isClicked);
+
 };
 
 #endif

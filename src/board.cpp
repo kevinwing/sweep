@@ -53,6 +53,12 @@ void Board::layMines()
     }
 }
 
+void Board::checkCell(int x, int y)
+{
+    bool isClicked = true;
+    checkCell(x, y, isClicked);
+}
+
 /**
  * @brief Check cell and if mine, end game. Else, check surrounding cells recursively
  *
@@ -61,9 +67,14 @@ void Board::layMines()
  * @return true
  * @return false
  */
-void Board::checkCell(int x, int y)
+void Board::checkCell(int x, int y, bool isClicked)
 {
     // base case 1: out of bounds
+    if (isClicked)
+    {
+        // alter clicked cell and check for bomb
+    }
+    
     if ((x < 0 || y < 0) || (x > mWidth || y > mHeight))
     {
         return;

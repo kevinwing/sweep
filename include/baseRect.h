@@ -7,17 +7,17 @@
 #ifndef RECT_H
 #define RECT_H
 
-class Rect
+#include <SFML/Graphics.hpp>
+
+class BaseRect
 {
     protected:
-        int mHeight;
-        int mWidth;
+        sf::RectangleShape rectShape;
+        sf::Texture texture;
 
     public:
-        virtual int getHeight() = 0;
-        virtual int getWidth() = 0;
-        // Rect(int w=0, int h=0);
-        // ~Rect();
+        virtual sf::RectangleShape& getShape() = 0;
+
 };
 
 #endif

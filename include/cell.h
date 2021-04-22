@@ -8,23 +8,25 @@
 #define CELL_H
 
 #include <string>
+#include "baseRect.h"
 
-class Cell
+using std::string;
+
+class Cell: protected BaseRect
 {
 private:
-    /* data */
+    bool mIsMine;
+    int mNumNeighborMines;
+    int mSideLength;
+    int mCoordinateX, mCoordinateY;
 public:
-    Cell(/* args */);
-    ~Cell();
+    Cell(int s=55, bool isMine=false, int xCoord=0, int yCoord=0);
+    int getXcoord();
+    int getYCoord();
+    bool isMine();
+    int getNumMines();
+    void setSize(int size=55);
+    void setTexture(string str);
 };
-
-Cell::Cell(/* args */)
-{
-}
-
-Cell::~Cell()
-{
-}
-
 
 #endif
