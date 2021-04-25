@@ -17,16 +17,18 @@ class Cell: protected BaseRect
 private:
     bool mIsMine;
     int mNumNeighborMines;
-    int mSideLength;
-    int mCoordinateX, mCoordinateY;
+    float mSideLength;
+    sf::Vector2i coordinates;
 public:
-    Cell(int s=55, bool isMine=false, int xCoord=0, int yCoord=0);
+    Cell(float s=55, bool isMine=false, int xCoord=0, int yCoord=0);
     int getXcoord();
     int getYCoord();
     bool isMine();
     int getNumMines();
-    void setSize(int size=55);
-    void setTexture(string str);
+    void setSize(int size);
+    void setTexture(string path);
+    sf::Texture& getTexture();
+    virtual sf::RectangleShape& getShape();
 };
 
 #endif
