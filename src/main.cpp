@@ -8,22 +8,6 @@
  * 
  */
 
-<<<<<<< HEAD
-#include <iostream>
-#include <vector>
-#include "game.h"
-
-int main()
-{	
-	Game game;
-	Board board = game.getBoard();
-	board.setUp();
-	board.print();
-	std::cout << '\n';
-	board.layMines();
-	board.print();
-	return 0;
-=======
 // #include "template.h"
 // #include "board.h"
 #include "game.h"
@@ -42,5 +26,4 @@ int main()
     game.gameLoop();
 
     return EXIT_SUCCESS;
->>>>>>> GameClass
 }
