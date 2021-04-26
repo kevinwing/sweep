@@ -12,7 +12,7 @@ CXXFLAGS	:= -std=c++11 -Wall -Wextra -g -pedantic -pedantic-errors
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
 #   their path using -Lpath, something like:
-LFLAGS =
+LFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
 # define output directory
 OUTPUT	:= bin
