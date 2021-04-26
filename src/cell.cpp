@@ -18,7 +18,28 @@ Cell::Cell(float s, bool m, int x, int y)
     coordinates.x = x;
     coordinates.y = y;
     rectShape.setSize(sf::Vector2f(mSideLength, mSideLength));
-    texture.loadFromFile("../assets/unclickedCell.png");
+    rectShape.setPosition(coordinates.x, coordinates.y);
+    // texture.loadFromFile("../assets/unclickedCell.png");
+}
+
+void Cell::setMine(bool mine)
+{
+    mIsMine = mine;
+}
+
+void Cell::setX(int x)
+{
+    coordinates.x = x;
+}
+
+void Cell::setY(int y)
+{
+    coordinates.y = y;
+}
+
+bool Cell::isMine()
+{
+    return mIsMine;
 }
 
 sf::RectangleShape& Cell::getShape()
@@ -26,9 +47,20 @@ sf::RectangleShape& Cell::getShape()
     return rectShape;
 }
 
-// int getXcoord();
-// int getYCoord();
-// bool isMine();
+int Cell::getXcoord()
+{
+    return coordinates.x;
+}
+
+int Cell::getYcoord()
+{
+    return coordinates.y;
+}
+
+float Cell::getSideLength()
+{
+    return mSideLength;
+}
 // int getNumMines();
 // void setSize(int size=55);
 // void setTexture(string str);
