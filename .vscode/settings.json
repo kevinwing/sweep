@@ -13,9 +13,17 @@
         "cstdint": "cpp",
         "cstdio": "cpp",
         "cstdlib": "cpp",
+<<<<<<< HEAD
         "cwchar": "cpp",
         "cwctype": "cpp",
         "deque": "cpp",
+=======
+        "ctime": "cpp",
+        "cwchar": "cpp",
+        "cwctype": "cpp",
+        "deque": "cpp",
+        "map": "cpp",
+>>>>>>> GameClass
         "unordered_map": "cpp",
         "vector": "cpp",
         "exception": "cpp",
@@ -44,7 +52,11 @@
         "sstream": "cpp",
         "stdexcept": "cpp",
         "streambuf": "cpp",
+<<<<<<< HEAD
         "typeinfo": "cpp",
         "ctime": "cpp"
+=======
+        "typeinfo": "cpp"
+>>>>>>> GameClass
     }
 }

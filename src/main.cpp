@@ -8,6 +8,7 @@
  * 
  */
 
+<<<<<<< HEAD
 #include <iostream>
 #include <vector>
 #include "game.h"
@@ -22,4 +23,24 @@ int main()
 	board.layMines();
 	board.print();
 	return 0;
+=======
+// #include "template.h"
+// #include "board.h"
+#include "game.h"
+#include <SFML/Graphics.hpp>
+// #include <iostream>
+
+int main()
+{
+	Game game;
+    game.loadGameWindow();
+    if(!game.loadGamePieces()) //game.loadGamePieces
+        return EXIT_FAILURE;
+
+    game.setGamePieces();
+
+    game.gameLoop();
+
+    return EXIT_SUCCESS;
+>>>>>>> GameClass
 }
