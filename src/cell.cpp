@@ -10,6 +10,14 @@
  */
 #include "cell.h"
 
+/**
+ * @brief Construct a new Cell:: Cell object
+ * 
+ * @param s float length of side in pixels
+ * @param m bool true if cell has mine, false otherwise
+ * @param x int x-coordinate of upper left corner of cell
+ * @param y int y-coordinate of upper left corner of cell
+ */
 Cell::Cell(float s, bool m, int x, int y)
 {
     mIsMine = m;
@@ -21,16 +29,83 @@ Cell::Cell(float s, bool m, int x, int y)
     texture.loadFromFile("../assets/unclickedCell.png");
 }
 
+/**
+ * @brief Returns the RectangleShape object of a cell
+ * 
+ * @return sf::RectangleShape& the shape of the cell
+ */
 sf::RectangleShape& Cell::getShape()
 {
     return rectShape;
 }
 
-// int getXcoord();
-// int getYCoord();
-// bool isMine();
-// int getNumMines();
-// void setSize(int size=55);
-// void setTexture(string str);
-// sf::Texture& getTexture();
-// sf::RectangleShape& getShape();
+/**
+ * @brief return x-coordinate
+ * 
+ * @return int x-coordinate
+ */
+int Cell::getXcoord()
+{
+    return coordinates.x;
+}
+
+/**
+ * @brief return y-coordinate
+ * 
+ * @return int y-coordinate
+ */
+int Cell::getYCoord()
+{
+    return coordinates.y;
+}
+
+/**
+ * @brief Returns if the cell is a mine
+ * 
+ * @return true if cell is a mine
+ * @return false if cell is not a mine
+ */
+bool Cell::isMine()
+{
+    return mIsMine;
+}
+
+/**
+ * @brief returns number of mines that the cell borders
+ * 
+ * @return int total number of surrounding mines
+ */
+int Cell::getNumMines()
+{
+    return mNumNeighborMines;
+}
+
+/**
+ * @brief Set the side length of the cell, default is 55 px
+ * 
+ * @param size float size in pixels to set the side length to
+ */
+void Cell::setSize(float size=55)
+{
+    mSideLength = size;
+}
+
+/**
+ * @brief Set which image to display at render time for each cell
+ * 
+ * @param path string containing the new path
+ */
+void Cell::setTexture(string path)
+{
+    texture.loadFromFile(path);
+}
+
+/**
+ * @brief Return the current texture object to render for the cell
+ * 
+ * @return sf::Texture& current texture object
+ */
+sf::Texture& Cell::getTexture()
+{
+    return texture;
+}

@@ -25,7 +25,7 @@ public:
     int getYCoord();
     bool isMine();
     int getNumMines();
-    void setSize(int size);
+    void setSize(float size);
     void setTexture(string path);
     sf::Texture& getTexture();
     virtual sf::RectangleShape& getShape();
