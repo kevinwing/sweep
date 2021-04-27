@@ -28,8 +28,12 @@ public:
     void setX(int x);
     void setY(int y);
     int getNumMines();
+<<<<<<< HEAD
     void setSize(int size);
     float getSideLength();
+=======
+    void setSize(float size);
+>>>>>>> master
     void setTexture(string path);
     sf::Texture& getTexture();
     virtual sf::RectangleShape& getShape();
