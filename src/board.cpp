@@ -15,25 +15,42 @@ void Board::setUp()
 {
     for (int i = 0; i < mHeight; ++i)
     {
-        vector<char> temp;
+        vector<Cell> row;
         for (int j = 0; j < mWidth; ++j)
         {
-            temp.push_back('-');
+            Cell cell;
+            cell.setX(cell.getSideLength() * i);
+            cell.setY(cell.getSideLength() * j);
+            row.push_back(cell);
         }
-        matrix.push_back(temp);
+        matrix.push_back(row);
     }
 }
 
-void Board::print()
+int Board::getHeight()
 {
-    for (long unsigned int i = 0; i < matrix.size(); ++i)
-    {
-        for (long unsigned int j = 0; j < matrix[i].size(); ++j)
-        {
-            std::cout << matrix[i][j];
-        }
-        std::cout << '\n';
-    }
+    return mHeight;
+}
+
+int Board::getWidth()
+{
+    return mWidth;
+}
+
+// void Board::print()
+// {
+//     for (long unsigned int i = 0; i < matrix.size(); ++i)
+//     {
+//         for (long unsigned int j = 0; j < matrix[i].size(); ++j)
+//         {
+//             window.draw(matrix[i][j].getShape());
+//         }
+//     }
+// }
+
+vector<vector<Cell>> Board::getMatrix()
+{
+    return matrix;
 }
 
 void Board::layMines()
@@ -45,9 +62,9 @@ void Board::layMines()
     {
         x = rand() % mWidth;
         y = rand() % mHeight;
-        if (matrix[x][y] == '-')
+        if (matrix[x][y].isMine() == false)
         {
-            matrix[x][y] = 'B';
+            matrix[x][y].setMine(true);
             num--;
         }
     }
@@ -80,7 +97,7 @@ void Board::checkCell(int x, int y, bool isClicked)
         return;
     }
     // base case 2: current cell is bomb
-    if (matrix[x][y] == 'B') // is mine, game over
+    if (matrix[x][y].isMine()) // is mine, game over
     {
         // if not clicked cell, return
         // else

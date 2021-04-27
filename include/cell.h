@@ -22,10 +22,18 @@ private:
 public:
     Cell(float s=55, bool isMine=false, int xCoord=0, int yCoord=0);
     int getXcoord();
-    int getYCoord();
+    int getYcoord();
     bool isMine();
+    void setMine(bool mine);
+    void setX(int x);
+    void setY(int y);
     int getNumMines();
+<<<<<<< HEAD
+    void setSize(int size);
+    float getSideLength();
+=======
     void setSize(float size);
+>>>>>>> master
     void setTexture(string path);
     sf::Texture& getTexture();
     virtual sf::RectangleShape& getShape();
