@@ -20,7 +20,7 @@
                 "miDebuggerPath": "lldb-mi",
                 "program": "${workspaceFolder}/bin/main"
             },
-            "windows": {
+            "mWindows": {
                 "MIMode": "gdb",
                 "miDebuggerPath": "gdb.exe",
                 "program": "${workspaceFolder}/bin/main.exe"

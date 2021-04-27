@@ -8,15 +8,17 @@
 #define RECT_H
 
 #include <SFML/Graphics.hpp>
+#include <string>
+
+using std::string;
 
 class BaseRect
 {
     protected:
-        sf::RectangleShape rectShape;
-        sf::Texture texture;
+        string mPath;
 
     public:
-        virtual sf::RectangleShape& getShape() = 0;
+        virtual sf::Texture& getTexturePath() = 0;
 
 };
 

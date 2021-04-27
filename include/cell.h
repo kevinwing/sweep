@@ -8,27 +8,28 @@
 #define CELL_H
 
 #include <string>
-#include "baseRect.h"
+// #include "baseRect.h"
 
 using std::string;
 
-class Cell: protected BaseRect
+class Cell
 {
-private:
-    bool mIsMine;
-    int mNumNeighborMines;
-    float mSideLength;
-    sf::Vector2i coordinates;
-public:
-    Cell(float s=55, bool isMine=false, int xCoord=0, int yCoord=0);
-    int getXcoord();
-    int getYCoord();
-    bool isMine();
-    int getNumMines();
-    void setSize(float size);
-    void setTexture(string path);
-    sf::Texture& getTexture();
-    virtual sf::RectangleShape& getShape();
+    private:
+        string mTexturePath;
+        bool mIsMine;
+        int mNumNeighborMines;
+        float mSideLength;
+    public:
+        // Cell(float s=25, bool isMine=false, int xCoord=0, int yCoord=0);
+        Cell(float s=25, bool isMine=false);
+        // int getXcoord();
+        // int getYCoord();
+        bool& isMine();
+        int getNumMines();
+        void setNumMines(int n);
+        // void setSize(float size);
+        void setTexturePath(string path);
+        string getTexturePath();
 };
 
 #endif

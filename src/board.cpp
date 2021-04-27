@@ -8,33 +8,41 @@
  * @copyright Copyright (c) 2021
  *
  */
+// #include "game.h"
+#include "board.h"
 
-#include "game.h"
-
-void Board::setUp()
+/**
+ * @brief Initialize the board vector and initialize each cell.
+ * 
+ * @param width 
+ * @param height 
+ */
+void Board::createBoard(int width, int height)
 {
-    for (int i = 0; i < mHeight; ++i)
+    for (int y = 0; y < height; ++y)
     {
-        vector<char> temp;
-        for (int j = 0; j < mWidth; ++j)
+        vector<Cell> row;
+        for (int x = 0; x < width; ++x)
         {
-            temp.push_back('-');
+            Cell temp;
+            temp.setTexturePath(ASSET_DIR + TEXTURE_PATHS[UNCHECKED]);
+            row.push_back(temp);
         }
-        matrix.push_back(temp);
+        mBoard.push_back(row);
     }
 }
 
-void Board::print()
-{
-    for (long unsigned int i = 0; i < matrix.size(); ++i)
-    {
-        for (long unsigned int j = 0; j < matrix[i].size(); ++j)
-        {
-            std::cout << matrix[i][j];
-        }
-        std::cout << '\n';
-    }
-}
+// void Board::print()
+// {
+//     for (long unsigned int i = 0; i < matrix.size(); ++i)
+//     {
+//         for (long unsigned int j = 0; j < matrix[i].size(); ++j)
+//         {
+//             std::cout << matrix[i][j];
+//         }
+//         std::cout << '\n';
+//     }
+// }
 
 void Board::layMines()
 {
@@ -45,12 +53,17 @@ void Board::layMines()
     {
         x = rand() % mWidth;
         y = rand() % mHeight;
-        if (matrix[x][y] == '-')
+        if (!mBoard[x][y].isMine())
         {
-            matrix[x][y] = 'B';
+            mBoard[y][x].isMine() = true;
             num--;
         }
     }
+}
+
+Cell Board::getCell(int x, int y)
+{
+    return mBoard[y][x];
 }
 
 void Board::checkCell(int x, int y)
@@ -80,7 +93,7 @@ void Board::checkCell(int x, int y, bool isClicked)
         return;
     }
     // base case 2: current cell is bomb
-    if (matrix[x][y] == 'B') // is mine, game over
+    if (mBoard[y][x].isMine()) // is mine, game over
     {
         // if not clicked cell, return
         // else
@@ -91,7 +104,7 @@ void Board::checkCell(int x, int y, bool isClicked)
     // recursive case
     else if ((x >=0 && y >= 0) && (x <= mWidth && y >= mHeight))
     {
-        matrix[x][y] = '_';         // reveal cell
+        mBoard[y][x] = '_';         // reveal cell
         checkCell(x - 1, y);        // check left cell
         checkCell(x, y - 1);        // check top cell
         checkCell(x + 1, y);        // check right cell

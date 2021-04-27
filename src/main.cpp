@@ -14,16 +14,19 @@
 #include <SFML/Graphics.hpp>
 // #include <iostream>
 
+// const int MENU_WIDTH = 200;
+// const int MENU_HEIGHT = 320;
+
 int main()
 {
-	Game game;
-    game.loadGameWindow();
-    if(!game.loadGamePieces()) //game.loadGamePieces
-        return EXIT_FAILURE;
+	Game game(10, 10, 25);
+    // game.loadGamemWindow();
+    // if(!game.loadGamePieces()) //game.loadGamePieces
+    //     return EXIT_FAILURE;
 
-    game.setGamePieces();
+    // game.setGamePieces();
 
-    game.gameLoop();
+    game.run();
 
-    return EXIT_SUCCESS;
+    return 0;
 }
