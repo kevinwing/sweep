@@ -60,44 +60,31 @@ sf::RectangleShape& Cell::getShape()
     return rectShape;
 }
 
-<<<<<<< HEAD
-=======
+int Cell::getSideLength()
+{
+    return mSideLength;
+}
+
 /**
  * @brief return x-coordinate
  * 
  * @return int x-coordinate
  */
->>>>>>> master
 int Cell::getXcoord()
 {
     return coordinates.x;
 }
 
-<<<<<<< HEAD
-int Cell::getYcoord()
-=======
 /**
  * @brief return y-coordinate
  * 
  * @return int y-coordinate
  */
-int Cell::getYCoord()
->>>>>>> master
+int Cell::getYcoord()
 {
     return coordinates.y;
 }
 
-<<<<<<< HEAD
-float Cell::getSideLength()
-{
-    return mSideLength;
-}
-// int getNumMines();
-// void setSize(int size=55);
-// void setTexture(string str);
-// sf::Texture& getTexture();
-// sf::RectangleShape& getShape();
-=======
 /**
  * @brief Returns if the cell is a mine
  * 
@@ -148,4 +135,3 @@ sf::Texture& Cell::getTexture()
 {
     return texture;
 }
->>>>>>> master

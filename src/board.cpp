@@ -9,7 +9,8 @@
  *
  */
 
-#include "game.h"
+#include "board.h";
+#include "game.h";
 
 void Board::setUp()
 {
