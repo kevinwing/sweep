@@ -1,10 +1,12 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "game.h"
+#include "cell.h"
 #include "board.h"
+#include "game.h"
 
-Game::Game(int width, int height, int cellSize) : mWindow(sf::VideoMode(width * cellSize, height * cellSize), "Minesweeper")
+Game::Game(int width, int height, int cellSize) : mWindow(sf::VideoMode(width * cellSize, height * cellSize), "Minesweeper"),
+                                                  mBoard(width, height)
 {
     mWindowHeight = height;
     mWindowWidth = width;
@@ -124,7 +126,7 @@ void Game::run()
     // mWindow.setSize(sf::Vector2u(width * mCellSize, height * cellSize));
     sf::Event event;
 
-    mBoard.createBoard(mWindowWidth, mWindowHeight);
+    // mBoard.createBoard(mWindowWidth, mWindowHeight);
     while(mWindow.isOpen())
     {
         while(mWindow.pollEvent(event))
@@ -134,16 +136,16 @@ void Game::run()
                 mWindow.close();
             }
 
-            // if (event.type == sf::Event::MouseButtonPressed)
-            // {
-            //     int mouseX = sf::Mouse::getPosition(mWindow).x / cellSize;
-            //     int mouseY = sf::Mouse::getPosition(mWindow).y / cellSize;
-            //     if (event.mouseButton.button == sf::Mouse::Left)
-            //     {
-            //         mBoard.checkCell(mouseX, mouseY);
-            //     }
-                
-            // }
+            if (event.type == sf::Event::MouseButtonPressed)
+            {
+                int mouseX = sf::Mouse::getPosition(mWindow).x / mCellSize;
+                int mouseY = sf::Mouse::getPosition(mWindow).y / mCellSize;
+                // cout << "x: " << mouseX << " y: " << mouseY << '\n';
+                if (event.mouseButton.button == sf::Mouse::Left)
+                {
+                    mBoard.checkCell(mouseX, mouseY);
+                }
+            }
             
 
             // if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -156,18 +158,20 @@ void Game::run()
 
         sf::Texture texture;
         // texture.setSmooth(true);
-        sf::Sprite sprite;
-        // sf::RectangleShape sprite;
-        // sprite.setSize(sf::Vector2f(mCellSize, mCellSize));
-        sprite.setScale(sf::Vector2f(.4, .4));
+        // sf::Sprite sprite;
+        sf::RectangleShape sprite;
+        sprite.setOutlineThickness(.1f);
+        sprite.setOutlineColor(sf::Color::Black);
+        sprite.setSize(sf::Vector2f(mCellSize, mCellSize));
+        // sprite.setScale(sf::Vector2f(.4, .4));
 
         for (int y = 0; y < mWindowHeight; ++y)
         {
             for (int x = 0; x < mWindowWidth; ++x)
             {
-                texture.loadFromFile(mBoard.getCell(x, y).getTexturePath());
+                texture.loadFromFile(ASSET_DIR + mBoard.getCell(x, y).texturePath());
                 sprite.setPosition(sf::Vector2f(x * mCellSize, y * mCellSize));
-                sprite.setTexture(texture);
+                sprite.setTexture(&texture);
                 mWindow.draw(sprite);
             }
         }

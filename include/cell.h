@@ -12,6 +12,41 @@
 
 using std::string;
 
+const string ASSET_DIR = "assets/";
+const string TEXTURE_PATHS[] = {
+    "UnCheckedCell.png",
+    "EmptyCell.png",
+    "ExplodedMine.png",
+    "Mine.png",
+    "NotAMine.png",
+    "Flag.png",
+    "One.png",
+    "Two.png",
+    "Three.png",
+    "Four.png",
+    "Five.png",
+    "Six.png",
+    "Seven.png",
+    "Eight.png"
+};
+
+enum TexturePathIndices{
+    UNCHECKED=0,
+    EMPTY,
+    EXPLODED,
+    MINE,
+    NOTMINE,
+    FLAG,
+    ONE,
+    TWO,
+    THREE,
+    FOUR,
+    FIVE,
+    SIX,
+    SEVEN,
+    EIGHT
+};
+
 class Cell
 {
     private:
@@ -28,8 +63,8 @@ class Cell
         int getNumMines();
         void setNumMines(int n);
         // void setSize(float size);
-        void setTexturePath(string path);
-        string getTexturePath();
+        // void setTexturePath(string path);
+        string& texturePath();
 };
 
 #endif
