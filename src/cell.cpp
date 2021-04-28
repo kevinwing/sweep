@@ -28,6 +28,11 @@ Cell::Cell(float s, bool m)
     mTexturePath = DEFAULT_TEXTURE;
 }
 
+int Cell::getSideLength()
+{
+    return mSideLength;
+}
+
 /**
  * @brief return x-coordinate
  * 
