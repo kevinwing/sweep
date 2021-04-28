@@ -11,25 +11,42 @@
 // #include "game.h"
 #include "board.h"
 
+Board::Board(int width, int height)
+{
+    mWidth = width;
+    mHeight = height;
+    mMines = 10;
+    createBoard();
+}
+
+void Board::setSize(int width, int height)
+{
+    mWidth = width;
+    mHeight = height;
+    mBoard.clear();
+    createBoard();
+}
+
 /**
  * @brief Initialize the board vector and initialize each cell.
  * 
  * @param width 
  * @param height 
  */
-void Board::createBoard(int width, int height)
+void Board::createBoard()
 {
-    for (int y = 0; y < height; ++y)
+    for (int y = 0; y < mHeight; ++y)
     {
         vector<Cell> row;
-        for (int x = 0; x < width; ++x)
+        for (int x = 0; x < mWidth; ++x)
         {
             Cell temp;
-            temp.setTexturePath(ASSET_DIR + TEXTURE_PATHS[UNCHECKED]);
+            temp.texturePath() = TEXTURE_PATHS[UNCHECKED];
             row.push_back(temp);
         }
         mBoard.push_back(row);
     }
+    layMines();
 }
 
 // void Board::print()
@@ -53,16 +70,30 @@ void Board::layMines()
     {
         x = rand() % mWidth;
         y = rand() % mHeight;
-        if (!mBoard[x][y].isMine())
+        if (!mBoard[y][x].isMine())
         {
+            // mBoard[y][x].texturePath() = TEXTURE_PATHS[MINE];
             mBoard[y][x].isMine() = true;
             num--;
         }
     }
 }
 
-Cell Board::getCell(int x, int y)
+Cell& Board::getCell(int x, int y)
 {
+    // cout << "Y size: " << mBoard.size() << '\n';
+    // cout << "X size: " << mBoard[y].size() << '\n';
+
+    // if (x < 0 || x >= mWidth)
+    // {
+    //     cout << "x: " << x << '\n';
+    // }
+
+    // if (y < 0 || y >= mHeight)
+    // {
+    //     cout << "y: " << y << '\n';
+    // }
+
     return mBoard[y][x];
 }
 
@@ -83,35 +114,44 @@ void Board::checkCell(int x, int y)
 void Board::checkCell(int x, int y, bool isClicked)
 {
     // base case 1: out of bounds
-    if (isClicked)
-    {
-        // alter clicked cell and check for bomb
-    }
-    
-    if ((x < 0 || y < 0) || (x > mWidth || y > mHeight))
+    if (x < 0 || y < 0 || x >= mWidth || y >= mHeight)
     {
         return;
     }
-    // base case 2: current cell is bomb
-    if (mBoard[y][x].isMine()) // is mine, game over
+
+    // base case 2: current cell is bomb    
+    if (getCell(x, y).isMine())
     {
-        // if not clicked cell, return
-        // else
+        if (isClicked) // is mine, game over
+        {
+            getCell(x, y).texturePath() = TEXTURE_PATHS[EXPLODED];
             // set current cell mine to red?
             // expose board
             // end game
+            return;
+        }
+        getCell(x, y).texturePath() = TEXTURE_PATHS[MINE];
+        // count how many neighbor mines there are or get number of mines
     }
-    // recursive case
-    else if ((x >=0 && y >= 0) && (x <= mWidth && y >= mHeight))
+    // base case 3: current cell is empty
+    else
     {
-        mBoard[y][x] = '_';         // reveal cell
-        checkCell(x - 1, y);        // check left cell
-        checkCell(x, y - 1);        // check top cell
-        checkCell(x + 1, y);        // check right cell
-        checkCell(x, y + 1);        // check bottom
-        checkCell(x - 1, y - 1);    // check upper left
-        checkCell(x + 1, y - 1);    // check upper right
-        checkCell(x + 1, y + 1);    // check lower right
-        checkCell(x - 1, y + 1);    // check lower left
+        getCell(x, y).texturePath() = TEXTURE_PATHS[EMPTY];
     }
+    
+
+    if (isClicked)
+    {
+        isClicked = false;
+    }
+    
+    // recursive case
+    // checkCell(x - 1, y, isClicked);        // check left cell
+    // checkCell(x, y - 1, isClicked);        // check top cell
+    // checkCell(x + 1, y, isClicked);        // check right cell
+    // checkCell(x, y + 1, isClicked);        // check bottom
+    // checkCell(x - 1, y - 1, isClicked);    // check upper left
+    // checkCell(x + 1, y - 1, isClicked);    // check upper right
+    // checkCell(x + 1, y + 1, isClicked);    // check lower right
+    // checkCell(x - 1, y + 1, isClicked);    // check lower left
 }

@@ -25,53 +25,18 @@ using std::cout;
 using std::vector;
 using std::string;
 
-const string ASSET_DIR = "assets/";
-
-const string TEXTURE_PATHS[] = {
-    "UnCheckedCell.png",
-    "EmptyCell.png",
-    "ExplodedMine.png",
-    "Mine.png",
-    "NotAMine.png",
-    "Flag.png",
-    "One.png",
-    "Two.png",
-    "Three.png",
-    "Four.png",
-    "Five.png",
-    "Six.png",
-    "Seven.png",
-    "Eight.png"
-};
-
-enum TexturePathIndices{
-    UNCHECKED=0,
-    EMPTY,
-    EXPLODED,
-    MINE,
-    NOTMINE,
-    FLAG,
-    ONE,
-    TWO,
-    THREE,
-    FOUR,
-    FIVE,
-    SIX,
-    SEVEN,
-    EIGHT
-};
-
 class Board
 {
 public:
-	// Board();
-	void createBoard(int width, int height);
+	Board(int width, int height);
+    void setSize(int width, int height);
+	void createBoard();
 	void print();
 	void layMines();
 	void setNumMines();
 	void setWidth(int width);
 	void setHeight(int height);
-	Cell getCell(int x, int y);
+	Cell& getCell(int x, int y);
 
 	void checkCell(int x, int y);
 

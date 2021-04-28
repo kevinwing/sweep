@@ -10,8 +10,6 @@
  */
 #include "cell.h"
 
-const string DEFAULT_TEXTURE = "../assets/UnCheckedCell.png";
-
 /**
  * @brief Construct a new Cell:: Cell object
  * 
@@ -25,7 +23,7 @@ Cell::Cell(float s, bool m)
     mIsMine = m;
     mSideLength = s;
     mNumNeighborMines = 0;
-    mTexturePath = DEFAULT_TEXTURE;
+    mTexturePath = TEXTURE_PATHS[UNCHECKED];
 }
 
 int Cell::getSideLength()
@@ -89,28 +87,22 @@ int Cell::getNumMines()
  * 
  * @param path string containing the new path
  */
-void Cell::setTexturePath(string path)
-{
-    if (path == "")
-    {
-        mTexturePath = DEFAULT_TEXTURE;
-        return;
-    }
+// void Cell::setTexturePath(string path)
+// {
+//     if (path == "")
+//     {
+//         throw std::__throw_invalid_argument;
+//     }
     
-    mTexturePath = path;
-}
+//     mTexturePath = path;
+// }
 
 /**
  * @brief Return the current texture object to render for the cell
  * 
  * @return sf::Texture& current texture object
  */
-string Cell::getTexturePath()
+string& Cell::texturePath()
 {
-    if (mTexturePath == "")
-    {
-        return DEFAULT_TEXTURE;
-    }
-    
     return mTexturePath;
 }
