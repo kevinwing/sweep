@@ -130,13 +130,50 @@ void Board::checkCell(int x, int y, bool isClicked)
             // end game
             return;
         }
-        getCell(x, y).texturePath() = TEXTURE_PATHS[MINE];
+        // getCell(x, y).texturePath() = TEXTURE_PATHS[MINE];
         // count how many neighbor mines there are or get number of mines
     }
     // base case 3: current cell is empty
     else
     {
-        getCell(x, y).texturePath() = TEXTURE_PATHS[EMPTY];
+        if (getCell(x, y).getNumMines() > 0)
+        {
+            // display numbered empty square
+            return;
+        }
+        else
+        {
+            // set texture to empty
+            getCell(x, y).texturePath() = TEXTURE_PATHS[EMPTY];
+        }
+        
+        
+        // implement memoization for is the cell already visited
+
+        if ((x - 1) >= 0 && getCell(x - 1, y).texturePath() == TEXTURE_PATHS[UNCHECKED])
+        {
+            checkCell(x - 1, y, isClicked);        // check left cell
+        }
+    
+        if ((y - 1) >= 0 && getCell(x, y - 1).texturePath() == TEXTURE_PATHS[UNCHECKED])
+        {
+            checkCell(x, y - 1, isClicked);        // check top cell
+        }
+
+        if ((x + 1) < mWidth && getCell(x + 1, y).texturePath() == TEXTURE_PATHS[UNCHECKED])
+        {
+            checkCell(x + 1, y, isClicked);        // check right cell
+        }
+
+        if ((y + 1) < mHeight && getCell(x, y + 1).texturePath() == TEXTURE_PATHS[UNCHECKED])
+        {
+            checkCell(x, y + 1, isClicked);        // check bottom
+        }
+
+        // checkCell(x - 1, y - 1, isClicked);    // check upper left
+        // checkCell(x + 1, y - 1, isClicked);    // check upper right
+        // checkCell(x + 1, y + 1, isClicked);    // check lower right
+        // checkCell(x - 1, y + 1, isClicked);    // check lower left
     }
     
 
@@ -146,12 +183,4 @@ void Board::checkCell(int x, int y, bool isClicked)
     }
     
     // recursive case
-    // checkCell(x - 1, y, isClicked);        // check left cell
-    // checkCell(x, y - 1, isClicked);        // check top cell
-    // checkCell(x + 1, y, isClicked);        // check right cell
-    // checkCell(x, y + 1, isClicked);        // check bottom
-    // checkCell(x - 1, y - 1, isClicked);    // check upper left
-    // checkCell(x + 1, y - 1, isClicked);    // check upper right
-    // checkCell(x + 1, y + 1, isClicked);    // check lower right
-    // checkCell(x - 1, y + 1, isClicked);    // check lower left
 }
