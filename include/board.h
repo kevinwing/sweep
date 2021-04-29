@@ -34,6 +34,7 @@ public:
 	void print();
 	void layMines();
 	void setNumMines();
+	bool checkForMine(int x, int y);
 	void setWidth(int width);
 	void setHeight(int height);
 	Cell& getCell(int x, int y);
