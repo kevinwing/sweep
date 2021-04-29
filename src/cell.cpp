@@ -67,7 +67,7 @@ bool& Cell::isMine()
  * 
  * @return int total number of surrounding mines
  */
-int Cell::getNumMines()
+int& Cell::numMines()
 {
     return mNumNeighborMines;
 }

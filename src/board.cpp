@@ -47,6 +47,7 @@ void Board::createBoard()
         mBoard.push_back(row);
     }
     layMines();
+    setNumMines();
 }
 
 // void Board::print()
@@ -79,21 +80,76 @@ void Board::layMines()
     }
 }
 
-Cell& Board::getCell(int x, int y)
+bool Board::checkForMine(int x, int y)
 {
-    // cout << "Y size: " << mBoard.size() << '\n';
-    // cout << "X size: " << mBoard[y].size() << '\n';
+    if (x < 0 || x >= mWidth || y < 0 || y >= mHeight)
+    {
+        return false;
+    }
+    return getCell(x, y).isMine();
+}
 
-    // if (x < 0 || x >= mWidth)
-    // {
-    //     cout << "x: " << x << '\n';
-    // }
+void Board::setNumMines()
+{
+    for (int y = 0; y < mHeight; ++y)
+    {
+        for (int x = 0; x < mWidth; ++x)
+        {
+            if (getCell(x, y).isMine())
+            {
+                continue;
+            }
 
-    // if (y < 0 || y >= mHeight)
-    // {
-    //     cout << "y: " << y << '\n';
-    // }
+            int count = 0;
+            
+            // upper
+            if (checkForMine(x, y - 1))
+            {
+                ++count;
+            }
+            // upper right
+            if (checkForMine(x + 1, y - 1))
+            {
+                ++count;
+            }
+            // right
+            if (checkForMine(x + 1, y))
+            {
+                ++count;
+            }
+            // lower right
+            if (checkForMine(x + 1, y + 1))
+            {
+                ++count;
+            }
+            // bottom
+            if (checkForMine(x, y + 1))
+            {
+                ++count;
+            }
+            // lower left
+            if (checkForMine(x - 1, y + 1))
+            {
+                ++count;
+            }
+            // left
+            if (checkForMine(x - 1, y))
+            {
+                ++count;
+            }
+            // upper left
+            if (checkForMine(x - 1, y - 1))
+            {
+                ++count;
+            }
+            getCell(x, y).numMines() = count;
+            cout << count << ", " << getCell(x, y).numMines() << '\n';
+        }
+    }
+}
 
+Cell& Board::getCell(int x, int y)
+{   
     return mBoard[y][x];
 }
 
@@ -130,28 +186,55 @@ void Board::checkCell(int x, int y, bool isClicked)
             // end game
             return;
         }
-        getCell(x, y).texturePath() = TEXTURE_PATHS[MINE];
+        return;
+        // getCell(x, y).texturePath() = TEXTURE_PATHS[MINE];
         // count how many neighbor mines there are or get number of mines
     }
     // base case 3: current cell is empty
     else
     {
-        getCell(x, y).texturePath() = TEXTURE_PATHS[EMPTY];
-    }
-    
 
-    if (isClicked)
-    {
-        isClicked = false;
-    }
+        if (getCell(x, y).numMines() > 0)
+        {
+            getCell(x, y).texturePath() = TEXTURE_PATHS[getCell(x, y).numMines()];
+            return;
+        }
+
+        getCell(x, y).texturePath() = TEXTURE_PATHS[EMPTY];
+        
+        
+        if (isClicked)
+        {
+            isClicked = false;
+        }
+      
+        // implement memoization for is the cell already visited
+
+        if ((x - 1) >= 0 && getCell(x - 1, y).texturePath() == TEXTURE_PATHS[UNCHECKED])
+        {
+            checkCell(x - 1, y, isClicked);        // check left cell
+        }
     
+        if ((y - 1) >= 0 && getCell(x, y - 1).texturePath() == TEXTURE_PATHS[UNCHECKED])
+        {
+            checkCell(x, y - 1, isClicked);        // check top cell
+        }
+
+        if ((x + 1) < mWidth && getCell(x + 1, y).texturePath() == TEXTURE_PATHS[UNCHECKED])
+        {
+            checkCell(x + 1, y, isClicked);        // check right cell
+        }
+
+        if ((y + 1) < mHeight && getCell(x, y + 1).texturePath() == TEXTURE_PATHS[UNCHECKED])
+        {
+            checkCell(x, y + 1, isClicked);        // check bottom
+        }
+
+        // checkCell(x - 1, y - 1, isClicked);    // check upper left
+        // checkCell(x + 1, y - 1, isClicked);    // check upper right
+        // checkCell(x + 1, y + 1, isClicked);    // check lower right
+        // checkCell(x - 1, y + 1, isClicked);    // check lower left
+    }
+
     // recursive case
-    // checkCell(x - 1, y, isClicked);        // check left cell
-    // checkCell(x, y - 1, isClicked);        // check top cell
-    // checkCell(x + 1, y, isClicked);        // check right cell
-    // checkCell(x, y + 1, isClicked);        // check bottom
-    // checkCell(x - 1, y - 1, isClicked);    // check upper left
-    // checkCell(x + 1, y - 1, isClicked);    // check upper right
-    // checkCell(x + 1, y + 1, isClicked);    // check lower right
-    // checkCell(x - 1, y + 1, isClicked);    // check lower left
 }
