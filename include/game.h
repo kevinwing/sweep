@@ -21,6 +21,7 @@ public:
     // void positionPiece();
     // bool isClickInBounds(int boardPos);
     // bool takeTurn(int turn);
+    void menu();
     void run();
 
 private:
