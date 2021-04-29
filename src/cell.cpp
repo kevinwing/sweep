@@ -26,10 +26,10 @@ Cell::Cell(float s, bool m)
     mTexturePath = TEXTURE_PATHS[UNCHECKED];
 }
 
-int Cell::getSideLength()
-{
-    return mSideLength;
-}
+// int Cell::getSideLength()
+// {
+//     return mSideLength;
+// }
 
 /**
  * @brief return x-coordinate

@@ -22,11 +22,11 @@ int main()
 	Game game(10, 10, 30);
     // game.loadGamemWindow();
     // if(!game.loadGamePieces()) //game.loadGamePieces
-    //     return EXIT_FAILURE;
 
+    //     return EXIT_FAILURE;
     // game.setGamePieces();
 
-    game.run();
+    game.menu();
 
     return 0;
 }

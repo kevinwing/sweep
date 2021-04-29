@@ -112,6 +112,59 @@ Game::Game(int width, int height, int cellSize) : mWindow(sf::VideoMode(width * 
 //     return false;
 // }
 
+void Game::menu()
+{
+    sf::RectangleShape shape1(sf::Vector2f(60.0f, 30.0f));
+    shape1.setFillColor(sf::Color::Green);
+    shape1.setPosition(125, 40);
+
+    sf::RectangleShape shape2(sf::Vector2f(60.0f, 30.0f));
+    shape2.setFillColor(sf::Color::Blue);
+    shape2.setPosition(125, 140);
+
+    sf::RectangleShape shape3(sf::Vector2f(60.0f, 30.0f));
+    shape3.setFillColor(sf::Color::Red);
+    shape3.setPosition(125, 240);
+
+    while (mWindow.isOpen())
+    {
+        sf::Event event;
+        while (mWindow.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                mWindow.close();
+
+            if (event.type == sf::Event::MouseButtonPressed)
+            {
+                int mouseX = sf::Mouse::getPosition(mWindow).x;
+                int mouseY = sf::Mouse::getPosition(mWindow).y;
+                if (event.mouseButton.button == sf::Mouse::Left)
+                {
+                    if (shape1.getGlobalBounds().contains(mouseX, mouseY))
+                    {
+                        std::cout << "Square 1 was pressed!\n";
+                        run();
+                    }
+                    if (shape2.getGlobalBounds().contains(mouseX, mouseY))
+                    {
+                        std::cout << "Square 2 was pressed!\n";
+                        run();
+                    }
+                    if (shape3.getGlobalBounds().contains(mouseX, mouseY))
+                    {
+                        std::cout << "Square 3 was pressed!\n";
+                        run();
+                    }
+                }
+            }
+        }
+        mWindow.clear();
+        mWindow.draw(shape1);
+        mWindow.draw(shape2);
+        mWindow.draw(shape3);
+        mWindow.display();
+    }
+}
 
 void Game::run()
 {
