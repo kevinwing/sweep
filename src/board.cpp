@@ -175,6 +175,11 @@ void Board::checkCell(int x, int y, bool isClicked)
         return;
     }
 
+    if (getCell(x, y).texturePath() == TEXTURE_PATHS[FLAG])
+    {
+        return;
+    }
+
     // base case 2: current cell is bomb    
     if (getCell(x, y).isMine())
     {
