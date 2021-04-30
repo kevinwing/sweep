@@ -22,7 +22,7 @@ public:
     // bool isClickInBounds(int boardPos);
     // bool takeTurn(int turn);
     void menu();
-    void run();
+    void run(int width, int height);
 
 private:
     sf::RenderWindow mWindow;
