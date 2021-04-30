@@ -193,13 +193,26 @@ void Game::run()
             {
                 int mouseX = sf::Mouse::getPosition(mWindow).x / mCellSize;
                 int mouseY = sf::Mouse::getPosition(mWindow).y / mCellSize;
-                // cout << "x: " << mouseX << " y: " << mouseY << '\n';
+
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     mBoard.checkCell(mouseX, mouseY);
                 }
+
+                if (event.mouseButton.button == sf::Mouse::Right)
+                {
+                    Cell *temp = &mBoard.getCell(mouseX, mouseY);
+                    if (temp->texturePath() != TEXTURE_PATHS[FLAG])
+                    {
+                        temp->texturePath() = TEXTURE_PATHS[FLAG];
+                    }
+                    else
+                    {
+                        temp->texturePath() = TEXTURE_PATHS[UNCHECKED];
+                    }
+                }
             }
-            
+
 
             // if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
             // {
