@@ -143,17 +143,17 @@ void Game::menu()
                     if (shape1.getGlobalBounds().contains(mouseX, mouseY))
                     {
                         std::cout << "Square 1 was pressed!\n";
-                        run(8, 10);
+                        run(8, 10, 10);
                     }
                     if (shape2.getGlobalBounds().contains(mouseX, mouseY))
                     {
                         std::cout << "Square 2 was pressed!\n";
-                        run(14, 18);
+                        run(14, 18, 40);
                     }
                     if (shape3.getGlobalBounds().contains(mouseX, mouseY))
                     {
                         std::cout << "Square 3 was pressed!\n";
-                        run(20, 24);
+                        run(20, 24, 99);
                     }
                 }
             }
@@ -166,17 +166,15 @@ void Game::menu()
     }
 }
 
-void Game::run(int width, int height)
+void Game::run(int width, int height, int mines)
 {
-    // int cellSize = 25;
-    // int width = 10;
-    // int height = 10;
-    // int boardSize = 390; // TODO
-    // int turn = 0;
-
     mWindowWidth = width;
     mWindowHeight = height;
+    mBoard.setMines(mines);
     mBoard.setSize(width, height);
+
+    //This resizing code was taken from SFML team member eXpl0it3r on the sfml-dev.org forums.
+    //Credit goes to them for the following 7 lines 
     sf::View view = mWindow.getView();
     sf::Vector2f size = static_cast<sf::Vector2f>(mWindow.getSize());
     size = (sf::Vector2f(mWindowWidth * mCellSize, mWindowHeight * mCellSize));
@@ -185,9 +183,6 @@ void Game::run(int width, int height)
     mWindow.setSize(static_cast<sf::Vector2<unsigned int> >(size));
     mWindow.setView(sf::View(sf::FloatRect(0.f, 0.f, size.x, size.y)));
 
-    // rectangleCoordinates();
-    // positionPiece();
-    // mWindow.setSize(sf::Vector2u(width * mCellSize, height * cellSize));
     sf::Event event;
 
     // mBoard.createBoard(mWindowWidth, mWindowHeight);

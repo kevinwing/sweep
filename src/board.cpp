@@ -62,6 +62,11 @@ void Board::createBoard()
 //     }
 // }
 
+void Board::setMines(int mines)
+{
+    mMines = mines;
+}
+
 void Board::layMines()
 {
     srand(time(NULL));
