@@ -128,15 +128,21 @@ void Game::menu()
     title.setStyle(sf::Text::Bold | sf::Text::Underlined);
 
     sf::RectangleShape shape1(sf::Vector2f(100.0f, 40.0f));
-    shape1.setFillColor(sf::Color::Green);
+    sf::Texture texture1;
+    texture1.loadFromFile("assets/EasyButton.png");
+    shape1.setTexture(&texture1);
     shape1.setPosition(100, 65);
 
     sf::RectangleShape shape2(sf::Vector2f(100.0f, 40.0f));
-    shape2.setFillColor(sf::Color::Blue);
+    sf::Texture texture2;
+    texture2.loadFromFile("assets/MediumButton.png");
+    shape2.setTexture(&texture2);
     shape2.setPosition(100, 145);
 
     sf::RectangleShape shape3(sf::Vector2f(100.0f, 40.0f));
-    shape3.setFillColor(sf::Color::Red);
+    sf::Texture texture3;
+    texture3.loadFromFile("assets/HardButton.PNG");
+    shape3.setTexture(&texture3);
     shape3.setPosition(100, 225);
 
     while (mWindow.isOpen())
