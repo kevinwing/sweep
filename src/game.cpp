@@ -114,17 +114,30 @@ Game::Game(int width, int height, int cellSize) : mWindow(sf::VideoMode(width * 
 
 void Game::menu()
 {
-    sf::RectangleShape shape1(sf::Vector2f(60.0f, 30.0f));
+    sf::Text title;
+    sf::Font font;
+
+    //Credit - Nasa21 font by USE Mediengestaltung of Berlin
+    font.loadFromFile("assets/title.ttf");
+    
+    title.setFont(font);
+    title.move(65, 10);
+    title.setString("MINESWEEPER");
+    title.setCharacterSize(26);
+    title.setFillColor(sf::Color::Red);
+    title.setStyle(sf::Text::Bold | sf::Text::Underlined);
+
+    sf::RectangleShape shape1(sf::Vector2f(100.0f, 40.0f));
     shape1.setFillColor(sf::Color::Green);
-    shape1.setPosition(125, 40);
+    shape1.setPosition(100, 65);
 
-    sf::RectangleShape shape2(sf::Vector2f(60.0f, 30.0f));
+    sf::RectangleShape shape2(sf::Vector2f(100.0f, 40.0f));
     shape2.setFillColor(sf::Color::Blue);
-    shape2.setPosition(125, 140);
+    shape2.setPosition(100, 145);
 
-    sf::RectangleShape shape3(sf::Vector2f(60.0f, 30.0f));
+    sf::RectangleShape shape3(sf::Vector2f(100.0f, 40.0f));
     shape3.setFillColor(sf::Color::Red);
-    shape3.setPosition(125, 240);
+    shape3.setPosition(100, 225);
 
     while (mWindow.isOpen())
     {
@@ -158,7 +171,8 @@ void Game::menu()
                 }
             }
         }
-        mWindow.clear();
+        mWindow.clear(sf::Color::White);
+        mWindow.draw(title);
         mWindow.draw(shape1);
         mWindow.draw(shape2);
         mWindow.draw(shape3);
