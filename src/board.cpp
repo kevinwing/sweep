@@ -50,18 +50,6 @@ void Board::createBoard()
     setNumMines();
 }
 
-// void Board::print()
-// {
-//     for (long unsigned int i = 0; i < matrix.size(); ++i)
-//     {
-//         for (long unsigned int j = 0; j < matrix[i].size(); ++j)
-//         {
-//             std::cout << matrix[i][j];
-//         }
-//         std::cout << '\n';
-//     }
-// }
-
 void Board::setMines(int mines)
 {
     mMines = mines;
@@ -148,9 +136,32 @@ void Board::setNumMines()
                 ++count;
             }
             getCell(x, y).numMines() = count;
-            cout << count << ", " << getCell(x, y).numMines() << '\n';
         }
     }
+}
+
+void Board::setNumFlags(int flags)
+{
+    mFlags = flags;
+}
+
+void Board::addFlag()
+{
+    ++mFlags;
+}
+void Board::subtractFlag()
+{
+    --mFlags;
+}
+
+bool Board::noFlags()
+{
+    if(mFlags == 0)
+    {
+        return true;
+    }
+
+    return false;
 }
 
 Cell& Board::getCell(int x, int y)
@@ -191,9 +202,7 @@ void Board::checkCell(int x, int y, bool isClicked)
         if (isClicked) // is mine, game over
         {
             showMines();
-            // set current cell mine to red?
             // expose board
-            
             // end game
             return;
         }
@@ -240,11 +249,6 @@ void Board::checkCell(int x, int y, bool isClicked)
         {
             checkCell(x, y + 1, isClicked);        // check bottom
         }
-
-        // checkCell(x - 1, y - 1, isClicked);    // check upper left
-        // checkCell(x + 1, y - 1, isClicked);    // check upper right
-        // checkCell(x + 1, y + 1, isClicked);    // check lower right
-        // checkCell(x - 1, y + 1, isClicked);    // check lower left
     }
 
     // recursive case
@@ -262,7 +266,6 @@ void Board::showMines()
                 {
                     getCell(x, y).texturePath() = TEXTURE_PATHS[NOTMINE];
                 }
-                break;
             }
             else if(getCell(x, y).isMine())
             {

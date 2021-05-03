@@ -1,4 +1,10 @@
-
+/**
+ * @file game.cpp
+ * @author Kevin Wing, Connor McElroy, Caleb Simmons
+ * @brief 
+ * @date 2021-05-03
+ * 
+ */
 #include <SFML/Graphics.hpp>
 
 #include "cell.h"
@@ -12,105 +18,6 @@ Game::Game(int width, int height, int cellSize) : mWindow(sf::VideoMode(width * 
     mWindowWidth = width;
     mCellSize = cellSize;
 }
-
-// void Game::loadGamemWindow()
-// {
-//     // mWindow.create(sf::VideoMode(mWindowWidth, mWindowHeight), "Minesweeper");
-// }
-
-// void Game::setWidth(int width)
-// {
-//     mWindowWidth = width;
-// }
-
-// void Game::setHeight(int width)
-// {
-//     mWindowHeight = width;
-// }
-
-// bool Game::loadGamePieces()
-// {
-//     return (cell.loadFromFile("assets/Cell.png") 
-//         && grayCell.loadFromFile("assets/GrayCell.png"));
-// }
-
-// void Game::setGamePieces()
-// {
-//     addCell.setTexture(cell);
-//     addGrayCell.setTexture(grayCell);
-// }
-
-
-// void Game::setRectCoordinates(sf::IntRect &rect, int rectLeft, int rectTop, int rectWidth, int rectHeight)
-// {
-//     rect.left = rectLeft;
-//     rect.top = rectTop;
-//     rect.width = rectWidth;
-//     rect.height = rectHeight; 
-// }
-
-// void Game::rectangleCoordinates()
-// {
-//     int squareNum = 0;
-//     for (int i = 0; i < mWindowHeight/55; i++)
-//     {
-//         for (int j = 0; j < mWindowWidth/55; j++)
-//         {
-//             setRectCoordinates(square[squareNum], (i*55), (j*55), ((i*55) + 55), ((j*55) + 55));
-//             ++squareNum;
-//         } 
-//     }
-// }
-
-// void Game::setPositionPieces(sf::Vector2i &pos, int left, int top)
-// {
-//     pos.x = left;
-//     pos.y = top;
-// }
-
-// void Game::positionPiece()
-// {
-//     int pieceNum = 0;
-//     for (int i = 0; i < mWindowHeight/55; i++)
-//     {
-//         for (int j = 0; j < mWindowWidth/55; j++)
-//         {
-//             setPositionPieces(position[pieceNum], (i*55), (j*55));
-//             ++pieceNum;
-//         } 
-//     }
-// }
-
-// bool Game::isClickInBounds(int boardPos)
-// {   
-//     return event.mouseButton.x >= square[boardPos].left 
-//         && event.mouseButton.x <= square[boardPos].width 
-//         && event.mouseButton.y >= square[boardPos].top 
-//         && event.mouseButton.y <= square[boardPos].height;
-// }
-
-// bool Game::takeTurn(int turn)
-// {
-    // for(int boardPos = 0; boardPos < 9; boardPos++)
-    // {
-    //     if(isClickInBounds(boardPos))
-    //     {
-    //         if(square[boardPos].left != -500)
-    //         {
-    //             // This goes in the recursion loop
-    //             // piece[turn] = addGrayCell;
-    //             // piece[turn].move((float)position[boardPos].x, (float)position[boardPos].y);
-    //             square[boardPos].left = -500;
-    //             return true;
-    //         } 
-    //         else 
-    //         {
-    //             return false;
-    //         }
-    //     }  
-    // }
-//     return false;
-// }
 
 void Game::menu()
 {
@@ -161,17 +68,14 @@ void Game::menu()
                 {
                     if (shape1.getGlobalBounds().contains(mouseX, mouseY))
                     {
-                        std::cout << "Square 1 was pressed!\n";
                         run(8, 10, 10);
                     }
                     if (shape2.getGlobalBounds().contains(mouseX, mouseY))
                     {
-                        std::cout << "Square 2 was pressed!\n";
                         run(14, 18, 40);
                     }
                     if (shape3.getGlobalBounds().contains(mouseX, mouseY))
                     {
-                        std::cout << "Square 3 was pressed!\n";
                         run(20, 24, 99);
                     }
                 }
@@ -191,6 +95,7 @@ void Game::run(int width, int height, int mines)
     mWindowWidth = width;
     mWindowHeight = height;
     mBoard.setMines(mines);
+    mBoard.setNumFlags(mines); // flags is the same number of mines
     mBoard.setSize(width, height);
 
     //This resizing code was taken from SFML team member eXpl0it3r on the sfml-dev.org forums.
@@ -228,23 +133,26 @@ void Game::run(int width, int height, int mines)
                 if (event.mouseButton.button == sf::Mouse::Right)
                 {
                     Cell *temp = &mBoard.getCell(mouseX, mouseY);
-                    if (temp->texturePath() != TEXTURE_PATHS[FLAG])
+                    if(!mBoard.noFlags()) // if player still has flagss
                     {
-                        temp->texturePath() = TEXTURE_PATHS[FLAG];
+                        if (temp->texturePath() == TEXTURE_PATHS[UNCHECKED]) // if cell is unchecked
+                        {
+                            temp->texturePath() = TEXTURE_PATHS[FLAG]; // add flag to board
+                            mBoard.subtractFlag(); // subtract flag from player's number of usable flags
+                        }
+                        else if (temp->texturePath() == TEXTURE_PATHS[FLAG]) // if cell is flagged
+                        {
+                            temp->texturePath() = TEXTURE_PATHS[UNCHECKED]; // remove flag
+                            mBoard.addFlag(); // add flag to player's number of usable flags
+                        }
                     }
-                    else
+                    else if (temp->texturePath() == TEXTURE_PATHS[FLAG]) // if player has no flags left and cell is flagged
                     {
-                        temp->texturePath() = TEXTURE_PATHS[UNCHECKED];
+                        temp->texturePath() = TEXTURE_PATHS[UNCHECKED]; // remove flag
+                        mBoard.addFlag(); // add flag to player's number of usable flags
                     }
                 }
             }
-
-
-            // if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
-            // {
-                // takeTurn(turn);
-                // turn++;
-            // }
         }
         mWindow.clear();
 
@@ -267,13 +175,6 @@ void Game::run(int width, int height, int mines)
                 mWindow.draw(sprite);
             }
         }
-        
-
-        // for(int index = 0; index < boardSize; index++)
-        // {
-        //     piece[index] = addCell;
-        //     mWindow.draw(piece[index]);
-        // }
         
         mWindow.display();
     }
