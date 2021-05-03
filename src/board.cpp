@@ -185,9 +185,10 @@ void Board::checkCell(int x, int y, bool isClicked)
     {
         if (isClicked) // is mine, game over
         {
-            getCell(x, y).texturePath() = TEXTURE_PATHS[EXPLODED];
+            showMines();
             // set current cell mine to red?
             // expose board
+            
             // end game
             return;
         }
@@ -242,4 +243,26 @@ void Board::checkCell(int x, int y, bool isClicked)
     }
 
     // recursive case
+}
+
+void Board::showMines()
+{
+    for(int y = 0; y < mHeight; y++)
+    {
+        for (int x = 0; x < mWidth; x++)
+        {
+            if(getCell(x, y).texturePath() == TEXTURE_PATHS[FLAG])
+            {
+                if(!getCell(x, y).isMine())
+                {
+                    getCell(x, y).texturePath() = TEXTURE_PATHS[NOTMINE];
+                }
+                break;
+            }
+            else if(getCell(x, y).isMine())
+            {
+               getCell(x, y).texturePath() = TEXTURE_PATHS[EXPLODED];
+            }
+        }
+    }
 }
