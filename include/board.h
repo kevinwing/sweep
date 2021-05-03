@@ -38,6 +38,7 @@ public:
 	bool checkForMine(int x, int y);
 	void setWidth(int width);
 	void setHeight(int height);
+	void setMines(int mines);
 	Cell& getCell(int x, int y);
 
 	void checkCell(int x, int y);

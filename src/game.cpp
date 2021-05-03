@@ -114,17 +114,36 @@ Game::Game(int width, int height, int cellSize) : mWindow(sf::VideoMode(width * 
 
 void Game::menu()
 {
-    sf::RectangleShape shape1(sf::Vector2f(60.0f, 30.0f));
-    shape1.setFillColor(sf::Color::Green);
-    shape1.setPosition(125, 40);
+    sf::Text title;
+    sf::Font font;
 
-    sf::RectangleShape shape2(sf::Vector2f(60.0f, 30.0f));
-    shape2.setFillColor(sf::Color::Blue);
-    shape2.setPosition(125, 140);
+    //Credit - Nasa21 font by USE Mediengestaltung of Berlin
+    font.loadFromFile("assets/title.ttf");
+    
+    title.setFont(font);
+    title.move(65, 10);
+    title.setString("MINESWEEPER");
+    title.setCharacterSize(26);
+    title.setFillColor(sf::Color::Red);
+    title.setStyle(sf::Text::Bold | sf::Text::Underlined);
 
-    sf::RectangleShape shape3(sf::Vector2f(60.0f, 30.0f));
-    shape3.setFillColor(sf::Color::Red);
-    shape3.setPosition(125, 240);
+    sf::RectangleShape shape1(sf::Vector2f(100.0f, 40.0f));
+    sf::Texture texture1;
+    texture1.loadFromFile("assets/EasyButton.png");
+    shape1.setTexture(&texture1);
+    shape1.setPosition(100, 65);
+
+    sf::RectangleShape shape2(sf::Vector2f(100.0f, 40.0f));
+    sf::Texture texture2;
+    texture2.loadFromFile("assets/MediumButton.png");
+    shape2.setTexture(&texture2);
+    shape2.setPosition(100, 145);
+
+    sf::RectangleShape shape3(sf::Vector2f(100.0f, 40.0f));
+    sf::Texture texture3;
+    texture3.loadFromFile("assets/HardButton.PNG");
+    shape3.setTexture(&texture3);
+    shape3.setPosition(100, 225);
 
     while (mWindow.isOpen())
     {
@@ -143,22 +162,23 @@ void Game::menu()
                     if (shape1.getGlobalBounds().contains(mouseX, mouseY))
                     {
                         std::cout << "Square 1 was pressed!\n";
-                        run();
+                        run(8, 10, 10);
                     }
                     if (shape2.getGlobalBounds().contains(mouseX, mouseY))
                     {
                         std::cout << "Square 2 was pressed!\n";
-                        run();
+                        run(14, 18, 40);
                     }
                     if (shape3.getGlobalBounds().contains(mouseX, mouseY))
                     {
                         std::cout << "Square 3 was pressed!\n";
-                        run();
+                        run(20, 24, 99);
                     }
                 }
             }
         }
-        mWindow.clear();
+        mWindow.clear(sf::Color::White);
+        mWindow.draw(title);
         mWindow.draw(shape1);
         mWindow.draw(shape2);
         mWindow.draw(shape3);
@@ -166,17 +186,23 @@ void Game::menu()
     }
 }
 
-void Game::run()
+void Game::run(int width, int height, int mines)
 {
-    // int cellSize = 25;
-    // int width = 10;
-    // int height = 10;
-    // int boardSize = 390; // TODO
-    // int turn = 0;
+    mWindowWidth = width;
+    mWindowHeight = height;
+    mBoard.setMines(mines);
+    mBoard.setSize(width, height);
 
-    // rectangleCoordinates();
-    // positionPiece();
-    // mWindow.setSize(sf::Vector2u(width * mCellSize, height * cellSize));
+    //This resizing code was taken from SFML team member eXpl0it3r on the sfml-dev.org forums.
+    //Credit goes to them for the following 7 lines 
+    sf::View view = mWindow.getView();
+    sf::Vector2f size = static_cast<sf::Vector2f>(mWindow.getSize());
+    size = (sf::Vector2f(mWindowWidth * mCellSize, mWindowHeight * mCellSize));
+    view.setCenter(size/2.f);
+    view.setSize(size);
+    mWindow.setSize(static_cast<sf::Vector2<unsigned int> >(size));
+    mWindow.setView(sf::View(sf::FloatRect(0.f, 0.f, size.x, size.y)));
+
     sf::Event event;
 
     // mBoard.createBoard(mWindowWidth, mWindowHeight);
