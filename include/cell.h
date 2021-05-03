@@ -8,7 +8,6 @@
 #define CELL_H
 
 #include <string>
-// #include "baseRect.h"
 
 using std::string;
 
@@ -55,15 +54,9 @@ class Cell
         int mNumNeighborMines;
         float mSideLength;
     public:
-        // Cell(float s=25, bool isMine=false, int xCoord=0, int yCoord=0);
         Cell(float s=25, bool isMine=false);
-        // int getXcoord();
-        // int getYCoord();
         bool& isMine();
         int& numMines();
-        // void setNumMines(int n);
-        // void setSize(float size);
-        // void setTexturePath(string path);
         string& texturePath();
 };
 

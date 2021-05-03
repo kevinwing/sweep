@@ -1,12 +1,8 @@
 /**
  * @file board.h
- * @author your name (you@domain.com)
+ * @author Kevin Wing, Connor McElroy, Caleb Simmons
  * @brief
- * @version 0.1
  * @date 2021-04-19
- *
- * @copyright Copyright (c) 2021
- *
  */
 
 
@@ -21,7 +17,6 @@
 
 #include "cell.h"
 
-using std::cout;
 using std::vector;
 using std::string;
 
@@ -34,6 +29,10 @@ public:
 	void print();
 	void layMines();
 	void setNumMines();
+	void setNumFlags(int flags);
+	void addFlag();
+	void subtractFlag();
+	bool noFlags();
 	void showMines();
 	bool checkForMine(int x, int y);
 	void setWidth(int width);
@@ -47,6 +46,7 @@ private:
 	int mMines;
     int mWidth;
     int mHeight;
+	int mFlags;
 	vector<vector<Cell>> mBoard;
 	
 	void checkCell(int x, int y, bool isClicked);
