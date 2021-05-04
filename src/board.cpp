@@ -273,4 +273,16 @@ void Board::showMines()
             }
         }
     }
+
+    gameStatus = true;
+}
+
+bool Board::getGameStatus()
+{
+    return gameStatus;
+}
+
+void Board::setGameStatus(bool game)
+{
+    gameStatus = game;
 }

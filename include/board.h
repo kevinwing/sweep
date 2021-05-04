@@ -42,6 +42,9 @@ public:
 
 	void checkCell(int x, int y);
 
+	bool getGameStatus();
+	void setGameStatus(bool game);
+
 private:
 	int mMines;
     int mWidth;
@@ -50,6 +53,8 @@ private:
 	vector<vector<Cell>> mBoard;
 	
 	void checkCell(int x, int y, bool isClicked);
+
+	bool gameStatus = false;
 
 };
 

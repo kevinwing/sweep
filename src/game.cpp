@@ -21,6 +21,21 @@ Game::Game(int width, int height, int cellSize) : mWindow(sf::VideoMode(width * 
 
 void Game::menu()
 {
+    mWindowHeight = 10;
+    mWindowWidth = 10;
+
+    //This resizing code was taken from SFML team member eXpl0it3r on the sfml-dev.org forums.
+    //Credit goes to them for the following 7 lines 
+    sf::View view = mWindow.getView();
+    sf::Vector2f size = static_cast<sf::Vector2f>(mWindow.getSize());
+    size = (sf::Vector2f(mWindowWidth * mCellSize, mWindowHeight * mCellSize));
+    view.setCenter(size/2.f);
+    view.setSize(size);
+    mWindow.setSize(static_cast<sf::Vector2<unsigned int> >(size));
+    mWindow.setView(sf::View(sf::FloatRect(0.f, 0.f, size.x, size.y)));
+
+    mBoard.setGameStatus(false);
+
     sf::Text title;
     sf::Font font;
 
@@ -108,6 +123,19 @@ void Game::run(int width, int height, int mines)
     mWindow.setSize(static_cast<sf::Vector2<unsigned int> >(size));
     mWindow.setView(sf::View(sf::FloatRect(0.f, 0.f, size.x, size.y)));
 
+    sf::Text prompt;
+    sf::Font font;
+
+    //Credit - Nasa21 font by USE Mediengestaltung of Berlin
+    font.loadFromFile("assets/title.ttf");
+
+    prompt.setFont(font);
+    prompt.setPosition(mWindow.getView().getCenter().x / 2.0f, 0);
+    prompt.setString("GAME OVER");
+    prompt.setCharacterSize(30);
+    prompt.setFillColor(sf::Color::Blue);
+    prompt.setStyle(sf::Text::Bold | sf::Text::Underlined);
+
     sf::Event event;
 
     // mBoard.createBoard(mWindowWidth, mWindowHeight);
@@ -127,7 +155,14 @@ void Game::run(int width, int height, int mines)
 
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
-                    mBoard.checkCell(mouseX, mouseY);
+                    if (mBoard.getGameStatus())
+                    {
+                        menu();
+                    }
+                    else
+                    {
+                        mBoard.checkCell(mouseX, mouseY);
+                    }
                 }
 
                 if (event.mouseButton.button == sf::Mouse::Right)
@@ -174,6 +209,11 @@ void Game::run(int width, int height, int mines)
                 sprite.setTexture(&texture);
                 mWindow.draw(sprite);
             }
+        }
+
+        if (mBoard.getGameStatus())
+        {
+            mWindow.draw(prompt);
         }
         
         mWindow.display();
