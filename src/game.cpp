@@ -130,11 +130,14 @@ void Game::run(int width, int height, int mines)
     font.loadFromFile("assets/title.ttf");
 
     prompt.setFont(font);
-    prompt.setPosition(mWindow.getView().getCenter().x / 2.0f, 0);
     prompt.setString("GAME OVER");
     prompt.setCharacterSize(30);
     prompt.setFillColor(sf::Color::Blue);
     prompt.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    prompt.setOutlineColor(sf::Color::Black);
+    prompt.setOutlineThickness(3.0f);
+
+    prompt.setPosition(((mWindow.getSize().x) - prompt.getGlobalBounds().width) / 2, mWindowHeight / 2);
 
     sf::Event event;
 
