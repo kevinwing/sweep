@@ -1,7 +1,7 @@
 /**
  * @file game.h
  * @author Kevin Wing, Connor McElroy, Caleb Simmons
- * @brief 
+ * @brief game class header file
  * @date 2021-05-03
  */
 #include <SFML/Graphics.hpp>

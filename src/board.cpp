@@ -1,8 +1,7 @@
 /**
  * @file main.cpp
  * @author Kevin Wing, Connor McElroy, Caleb Simmons
- * @brief Spring 2021 CS151 final project - Minesweeper
- *         cpp function file
+ * @brief board class function file
  * @date 2021-04-14
  *
  * @copyright Copyright (c) 2021
@@ -11,6 +10,12 @@
 // #include "game.h"
 #include "board.h"
 
+/**
+ * @brief Construct a new Board:: Board object
+ * 
+ * @param width 
+ * @param height 
+ */
 Board::Board(int width, int height)
 {
     mWidth = width;
@@ -50,11 +55,20 @@ void Board::createBoard()
     setNumMines();
 }
 
+/**
+ * @brief Sets the number of mines that will be placed on the board
+ * 
+ * @param mines 
+ */
 void Board::setMines(int mines)
 {
     mMines = mines;
 }
 
+/**
+ * @brief Randomly assigns the isMine() quality to certain cells on the board,
+ * "laying" them
+ */
 void Board::layMines()
 {
     srand(time(NULL));
@@ -66,7 +80,6 @@ void Board::layMines()
         y = rand() % mHeight;
         if (!mBoard[y][x].isMine())
         {
-            // mBoard[y][x].texturePath() = TEXTURE_PATHS[MINE];
             mBoard[y][x].isMine() = true;
             num--;
         }
@@ -201,15 +214,12 @@ void Board::checkCell(int x, int y, bool isClicked)
     {
         if (isClicked) // is mine, game over
         {
-            showMines();
-            // expose board
-            // end game
+            showMines(); // expose board and end game
             return;
         }
         return;
-        // getCell(x, y).texturePath() = TEXTURE_PATHS[MINE];
-        // count how many neighbor mines there are or get number of mines
     }
+
     // base case 3: current cell is empty
     else
     {
@@ -277,11 +287,22 @@ void Board::showMines()
     gameStatus = true;
 }
 
+/**
+ * @brief gets the game status attached to the board, either game over or not game over
+ * 
+ * @return true 
+ * @return false 
+ */
 bool Board::getGameStatus()
 {
     return gameStatus;
 }
 
+/**
+ * @brief sets the game status to true or false
+ * 
+ * @param game 
+ */
 void Board::setGameStatus(bool game)
 {
     gameStatus = game;
