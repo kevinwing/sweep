@@ -13,8 +13,8 @@
 /**
  * @brief Construct a new Board:: Board object
  * 
- * @param width 
- * @param height 
+ * @param width width of the board
+ * @param height height of the board
  */
 Board::Board(int width, int height)
 {
@@ -24,6 +24,12 @@ Board::Board(int width, int height)
     createBoard();
 }
 
+/**
+ * @brief clears the old board's parameters and creates a new one with new parameters
+ * 
+ * @param width new width of the board
+ * @param height new height of the board
+ */
 void Board::setSize(int width, int height)
 {
     mWidth = width;
@@ -35,8 +41,8 @@ void Board::setSize(int width, int height)
 /**
  * @brief Initialize the board vector and initialize each cell.
  * 
- * @param width 
- * @param height 
+ * @param width width of the board
+ * @param height height of the board
  */
 void Board::createBoard()
 {
@@ -58,7 +64,7 @@ void Board::createBoard()
 /**
  * @brief Sets the number of mines that will be placed on the board
  * 
- * @param mines 
+ * @param mines number of mines
  */
 void Board::setMines(int mines)
 {
@@ -86,6 +92,15 @@ void Board::layMines()
     }
 }
 
+/**
+ * @brief Recursively checks around a clicked cell to find out
+ * how many mines are adjacent to it
+ * 
+ * @param x cell x-coordinate
+ * @param y cell y-coordinate
+ * @return true 
+ * @return false 
+ */
 bool Board::checkForMine(int x, int y)
 {
     if (x < 0 || x >= mWidth || y < 0 || y >= mHeight)
@@ -95,6 +110,10 @@ bool Board::checkForMine(int x, int y)
     return getCell(x, y).isMine();
 }
 
+/**
+ * @brief Marks a cell with the number of mines adjacent to it once clicked
+ * 
+ */
 void Board::setNumMines()
 {
     for (int y = 0; y < mHeight; ++y)
@@ -153,20 +172,40 @@ void Board::setNumMines()
     }
 }
 
+/**
+ * @brief Sets the number of available flags
+ * 
+ * @param flags 
+ */
 void Board::setNumFlags(int flags)
 {
     mFlags = flags;
 }
 
+/**
+ * @brief Adds to the total number of flags
+ * 
+ */
 void Board::addFlag()
 {
     ++mFlags;
 }
+
+/**
+ * @brief Subtracts from the total number of flags
+ * 
+ */
 void Board::subtractFlag()
 {
     --mFlags;
 }
 
+/**
+ * @brief Checks if the player has run out of flags
+ * 
+ * @return true 
+ * @return false 
+ */
 bool Board::noFlags()
 {
     if(mFlags == 0)
@@ -177,11 +216,24 @@ bool Board::noFlags()
     return false;
 }
 
+/**
+ * @brief Returns the cell as a certain window coordinate
+ * 
+ * @param x window x-coordinate
+ * @param y window y-coordinate
+ * @return Cell& 
+ */
 Cell& Board::getCell(int x, int y)
 {   
     return mBoard[y][x];
 }
 
+/**
+ * @brief Checks if a cell has been clicked
+ * 
+ * @param x window x-coordinate
+ * @param y window y-coordinate
+ */
 void Board::checkCell(int x, int y)
 {
     bool isClicked = true;
@@ -191,8 +243,8 @@ void Board::checkCell(int x, int y)
 /**
  * @brief Check cell and if mine, end game. Else, check surrounding cells recursively
  *
- * @param x
- * @param y
+ * @param x window x-coordinate
+ * @param y window y-coordinate
  * @return true
  * @return false
  */
@@ -264,6 +316,10 @@ void Board::checkCell(int x, int y, bool isClicked)
     // recursive case
 }
 
+/**
+ * @brief Shows all currently concealed mines in the event of a loss
+ * 
+ */
 void Board::showMines()
 {
     for(int y = 0; y < mHeight; y++)
@@ -301,7 +357,7 @@ bool Board::getGameStatus()
 /**
  * @brief sets the game status to true or false
  * 
- * @param game 
+ * @param game game over/not game over variable
  */
 void Board::setGameStatus(bool game)
 {
