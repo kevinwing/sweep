@@ -14,9 +14,9 @@
 /**
  * @brief Construct a new Game:: Game object
  * 
- * @param width 
- * @param height 
- * @param cellSize 
+ * @param width width of new window
+ * @param height height of new window
+ * @param cellSize size of game board cells
  */
 Game::Game(int width, int height, int cellSize) : mWindow(sf::VideoMode(width * cellSize, height * cellSize), "Minesweeper"),
                                                   mBoard(width, height)
@@ -116,6 +116,13 @@ void Game::menu()
     }
 }
 
+/**
+ * @brief Launches the actual game with the given parameters
+ * 
+ * @param width width of the board
+ * @param height height of the board
+ * @param mines number of mines
+ */
 void Game::run(int width, int height, int mines)
 {
     mWindowWidth = width;
