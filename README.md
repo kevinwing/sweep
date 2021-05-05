@@ -30,9 +30,9 @@ make
 ```
 
 ### Contributors
-[Kevin Wing] (https://github.com/kevinwing)
-[Caleb Simmons] (https://github.com/GlacialStalke)
-[Connor McElroy] (https://github.com/connor-mcelroy)
+* Kevin Wing: https://github.com/kevinwing
+* Caleb Simmons: https://github.com/GlacialStalke
+* Connor McElroy: https://github.com/connor-mcelroy
 
 ### Future
 These are some ideas for features to implement in the future.
