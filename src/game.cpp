@@ -1,7 +1,7 @@
 /**
  * @file game.cpp
  * @author Kevin Wing, Connor McElroy, Caleb Simmons
- * @brief 
+ * @brief game class function file
  * @date 2021-05-03
  * 
  */
@@ -11,6 +11,13 @@
 #include "board.h"
 #include "game.h"
 
+/**
+ * @brief Construct a new Game:: Game object
+ * 
+ * @param width 
+ * @param height 
+ * @param cellSize 
+ */
 Game::Game(int width, int height, int cellSize) : mWindow(sf::VideoMode(width * cellSize, height * cellSize), "Minesweeper"),
                                                   mBoard(width, height)
 {
@@ -19,6 +26,10 @@ Game::Game(int width, int height, int cellSize) : mWindow(sf::VideoMode(width * 
     mCellSize = cellSize;
 }
 
+/**
+ * @brief Launch the game's difficulty menu prior to the actual game
+ * 
+ */
 void Game::menu()
 {
     mWindowHeight = 10;
@@ -136,12 +147,10 @@ void Game::run(int width, int height, int mines)
     prompt.setStyle(sf::Text::Bold | sf::Text::Underlined);
     prompt.setOutlineColor(sf::Color::Black);
     prompt.setOutlineThickness(3.0f);
-
     prompt.setPosition(((mWindow.getSize().x) - prompt.getGlobalBounds().width) / 2, mWindowHeight / 2);
 
     sf::Event event;
 
-    // mBoard.createBoard(mWindowWidth, mWindowHeight);
     while(mWindow.isOpen())
     {
         while(mWindow.pollEvent(event))
@@ -158,7 +167,7 @@ void Game::run(int width, int height, int mines)
 
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
-                    if (mBoard.getGameStatus())
+                    if (mBoard.getGameStatus()) // if game over, restart at first left click
                     {
                         menu();
                     }
@@ -195,13 +204,10 @@ void Game::run(int width, int height, int mines)
         mWindow.clear();
 
         sf::Texture texture;
-        // texture.setSmooth(true);
-        // sf::Sprite sprite;
         sf::RectangleShape sprite;
         sprite.setOutlineThickness(.1f);
         sprite.setOutlineColor(sf::Color::Black);
         sprite.setSize(sf::Vector2f(mCellSize, mCellSize));
-        // sprite.setScale(sf::Vector2f(.4, .4));
 
         for (int y = 0; y < mWindowHeight; ++y)
         {

@@ -1,7 +1,7 @@
 /**
  * @file board.h
  * @author Kevin Wing, Connor McElroy, Caleb Simmons
- * @brief
+ * @brief board class header file
  * @date 2021-04-19
  */
 
@@ -39,9 +39,7 @@ public:
 	void setHeight(int height);
 	void setMines(int mines);
 	Cell& getCell(int x, int y);
-
 	void checkCell(int x, int y);
-
 	bool getGameStatus();
 	void setGameStatus(bool game);
 
@@ -51,9 +49,7 @@ private:
     int mHeight;
 	int mFlags;
 	vector<vector<Cell>> mBoard;
-	
 	void checkCell(int x, int y, bool isClicked);
-
 	bool gameStatus = false;
 
 };
