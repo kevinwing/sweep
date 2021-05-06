@@ -14,38 +14,18 @@
  * @param x int x-coordinate of upper left corner of cell
  * @param y int y-coordinate of upper left corner of cell
  */
-Cell::Cell(float s, bool m)
+Cell::Cell(int s, bool m, string path)
 {
     mIsMine = m;
-    mSideLength = s;
+    mRectWidth = s;
+    mRectHeight = s;
     mNumNeighborMines = 0;
-    mTexturePath = TEXTURE_PATHS[UNCHECKED];
+    mTexturePath = path;
+
+    mTexture.loadFromFile(ASSET_DIR + TEXTURE_PATHS[UNCHECKED]);
+    mRect.setSize(sf::Vector2f(mRectWidth, mRectHeight));
+    mRect.setTexture(&mTexture);
 }
-
-// int Cell::getSideLength()
-// {
-//     return mSideLength;
-// }
-
-/**
- * @brief return x-coordinate
- * 
- * @return int x-coordinate
- */
-// int Cell::getXcoord()
-// {
-//     return coordinates.x;
-// }
-
-/**
- * @brief return y-coordinate
- * 
- * @return int y-coordinate
- */
-// int Cell::getYCoord()
-// {
-//     return coordinates.y;
-// }
 
 /**
  * @brief Returns if the cell is a mine
@@ -66,39 +46,4 @@ bool& Cell::isMine()
 int& Cell::numMines()
 {
     return mNumNeighborMines;
-}
-
-/**
- * @brief Set the side length of the cell, default is 55 px
- * 
- * @param size float size in pixels to set the side length to
- */
-// void Cell::setSize(float size)
-// {
-//     mSideLength = size;
-// }
-
-/**
- * @brief Set which image to display at render time for each cell
- * 
- * @param path string containing the new path
- */
-// void Cell::setTexturePath(string path)
-// {
-//     if (path == "")
-//     {
-//         throw std::__throw_invalid_argument;
-//     }
-    
-//     mTexturePath = path;
-// }
-
-/**
- * @brief Return the current texture object to render for the cell
- * 
- * @return sf::Texture& current texture object
- */
-string& Cell::texturePath()
-{
-    return mTexturePath;
 }

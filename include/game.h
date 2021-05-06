@@ -21,6 +21,7 @@ private:
     sf::RenderWindow mWindow;
     Board mBoard;
     int mWindowHeight, mWindowWidth, mCellSize;
+    bool mIsWon;
 
 };
 
