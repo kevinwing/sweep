@@ -39,16 +39,18 @@ public:
 	bool getGameStatus();
 	void setGameStatus(bool game);
 	bool& isWon();
-	// bool checkConditions();
+	bool checkConditions();
+	void showMines();
+	int &cellsRemaining();
 
 private:
 	int mMines;
     int mWidth;
     int mHeight;
 	int mFlags;
+	int mCellsRemaining;
 	vector<vector<Cell>> mBoard;
 	
-	void showMines();
 	void countNeighborMines();
 	void createBoard();
 	void layMines();
