@@ -12,18 +12,19 @@
 
 using std::string;
 
+/**
+ * @brief Create a mineweeper cell object which inherits from BaseRect
+ * 
+ */
 class Cell : public BaseRect
 {
     private:
-        // string mTexturePath;
         bool mIsMine;
         int mNumNeighborMines;
-        // float mSideLength;
     public:
         Cell(int s=25, bool isMine=false, string path=TEXTURE_PATHS[UNCHECKED]);
         bool& isMine();
         int& numMines();
-        // string& texturePath();
 };
 
 #endif

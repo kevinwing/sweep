@@ -10,7 +10,9 @@
 
 int main()
 {
+    // create instance of Game
 	Game game(10, 10, 30);
+    // call the menu function to run the game
     game.menu();
 
     return 0;

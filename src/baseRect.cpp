@@ -6,43 +6,51 @@
  */
 #include "baseRect.h"
 
-// BaseRect::BaseRect(int x, int y, string path)
-// {
-//     mRectWidth = x;
-//     mRectHeight = y;
-//     mTexturePath = path;
-//     mTexture.loadFromFile(ASSET_DIR + mTexturePath);
-//     mRect.setSize(sf::Vector2f(mRectWidth, mRectHeight));
-//     mRect.setTexture(&mTexture);
-// }
-
+/**
+ * @brief returns reference to the mTexture object
+ * 
+ * @return sf::Texture& mTexture ref
+ */
 sf::Texture& BaseRect::getTexture()
 {
     return mTexture;
 }
 
-// void BaseRect::setRectTexture(string path)
-// {
-//     mTexturePath = path;
-//     mTexture.loadFromFile(ASSET_DIR + mTexturePath);
-//     mRect.setTexture(&mTexture);
-// }
-
+/**
+ * @brief get reference to the sf::RectangleShape member object
+ * 
+ * @return sf::RectangleShape& mRect object ref
+ */
 sf::RectangleShape& BaseRect::getShape()
 {
     return mRect;
 }
 
+/**
+ * @brief return reference to the texture path string
+ * 
+ * @return string& path string ref
+ */
 string& BaseRect::texturePath()
 {
     return mTexturePath;
 }
 
+/**
+ * @brief returns reference to mRectWidth int
+ * 
+ * @return int& mRectWidth ref
+ */
 int& BaseRect::rectWidth()
 {
     return mRectWidth;
 }
 
+/**
+ * @brief returns reference to mRectHeight
+ * 
+ * @return int& mRectHeight ref
+ */
 int& BaseRect::rectHeight()
 {
     return mRectHeight;

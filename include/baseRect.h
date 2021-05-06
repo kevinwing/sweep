@@ -12,7 +12,9 @@
 
 using std::string;
 
+// assets directory string
 const string ASSET_DIR = "assets/";
+// texture path strings
 const string TEXTURE_PATHS[] = {
     "EmptyCell.png",
     "One.png",
@@ -30,6 +32,7 @@ const string TEXTURE_PATHS[] = {
     "Flag.png"
 };
 
+// Indices of texture path strings
 enum TexturePathIndices{
     EMPTY=0,
     ONE,
@@ -47,6 +50,10 @@ enum TexturePathIndices{
     FLAG
 };
 
+/**
+ * @brief A generic class for rectangle objects
+ * 
+ */
 class BaseRect
 {
     protected:

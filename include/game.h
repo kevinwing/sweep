@@ -10,6 +10,10 @@
 #ifndef GAME_H
 #define GAME_H
 
+/**
+ * @brief A singleton class for running the game.
+ * 
+ */
 class Game 
 {   
 public:

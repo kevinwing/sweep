@@ -118,7 +118,7 @@ void Game::menu()
 }
 
 /**
- * @brief Launches the actual game with the given parameters
+ * @brief Initializes and runs a game
  * 
  * @param width width of the board
  * @param height height of the board
@@ -146,19 +146,6 @@ void Game::run(int width, int height, int mines)
     sf::Text prompt;
     sf::Font font;
 
-    // //Credit - Nasa21 font by USE Mediengestaltung of Berlin
-    // font.loadFromFile("assets/title.ttf");
-
-    // prompt.setFont(font);
-    // prompt.setString("GAME OVER");
-    // prompt.setCharacterSize(30);
-    // prompt.setFillColor(sf::Color::Blue);
-    // prompt.setStyle(sf::Text::Bold | sf::Text::Underlined);
-    // prompt.setOutlineColor(sf::Color::Black);
-    // prompt.setOutlineThickness(3.0f);
-
-    // prompt.setPosition(((mWindow.getSize().x) - prompt.getGlobalBounds().width) / 2, mWindowHeight / 2);
-
     sf::Event event;
     while(mWindow.isOpen())
     {
@@ -185,12 +172,13 @@ void Game::run(int width, int height, int mines)
                     {
                         // check each cell in board expanding from clicked cell
                         mBoard.checkCell(mouseX, mouseY);
-                        // std::cout << "Num Cells: " << mBoard.mCellsRemaining << '\n';
-                        // get game play condition
+                        // get game play state
                         isOver = mBoard.checkConditions();
                         if (isOver)
                         {
+                            // set status to true: return to menu
                             mBoard.setGameStatus(true);
+                            // show remaining mines
                             mBoard.showMines();
                         }
                     }
@@ -215,7 +203,6 @@ void Game::run(int width, int height, int mines)
                     else if (cellPtr->texturePath() == TEXTURE_PATHS[FLAG]) // if player has no flags left and cell is flagged
                     {
                         cellPtr->texturePath() = TEXTURE_PATHS[UNCHECKED];
-                        // temp->texturePath() = TEXTURE_PATHS[UNCHECKED]; // remove flag
                         mBoard.addFlag(); // add flag to player's number of usable flags
                     }
                 }
@@ -223,12 +210,6 @@ void Game::run(int width, int height, int mines)
         }
         mWindow.clear();
 
-        // sf::Sprite sprite;
-        // sf::RectangleShape sprite;
-        // sprite.setOutlineThickness(.1f);
-        // sprite.setOutlineColor(sf::Color::Black);
-        // sprite.setSize(sf::Vector2f(mCellSize, mCellSize));
-        // sprite.setScale(sf::Vector2f(.4, .4));
         sf::Texture texture;
         texture.setSmooth(true);
         sf::RectangleShape rect;
@@ -238,20 +219,25 @@ void Game::run(int width, int height, int mines)
         {
             for (int x = 0; x < mWindowWidth; ++x)
             {
+                // create new rectangle for each cell and set the textures from each cell texture data
                 Cell *cellPtr = &mBoard.getCell(x, y);
                 texture.loadFromFile(ASSET_DIR + cellPtr->texturePath());
                 rect.setPosition(sf::Vector2f(x * mCellSize, y * mCellSize));
                 rect.setTexture(&texture);
                 cellPtr->getShape().setPosition(sf::Vector2f(x * mCellSize, y * mCellSize));
+
+                // draw the cell rectangle
                 mWindow.draw(rect);
             }
         }
 
+        // if game status is true draw message overlay
         if (mBoard.getGameStatus())
         {
-                //Credit - Nasa21 font by USE Mediengestaltung of Berlin
+            //Credit - Nasa21 font by USE Mediengestaltung of Berlin
             font.loadFromFile("assets/title.ttf");
 
+            // set game end message to default loss
             prompt.setFont(font);
             prompt.setString("GAME OVER");
             prompt.setCharacterSize(30);
