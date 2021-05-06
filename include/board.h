@@ -25,18 +25,14 @@ class Board
 public:
 	Board(int width, int height);
     void setSize(int width, int height);
-	void createBoard();
-	void print();
-	void layMines();
-	void setNumMines();
+	// void print();
+	// void initTextures();
 	void setNumFlags(int flags);
 	void addFlag();
 	void subtractFlag();
 	bool noFlags();
-	void showMines();
-	bool checkForMine(int x, int y);
-	void setWidth(int width);
-	void setHeight(int height);
+	// void setWidth(int width);
+	// void setHeight(int height);
 	void setMines(int mines);
 	Cell& getCell(int x, int y);
 
@@ -44,6 +40,8 @@ public:
 
 	bool getGameStatus();
 	void setGameStatus(bool game);
+	bool& isWon();
+	// bool checkConditions();
 
 private:
 	int mMines;
@@ -52,9 +50,15 @@ private:
 	int mFlags;
 	vector<vector<Cell>> mBoard;
 	
+	void showMines();
+	void countNeighborMines();
+	void createBoard();
+	void layMines();
 	void checkCell(int x, int y, bool isClicked);
+	bool checkForMine(int x, int y);
 
-	bool gameStatus = false;
+	bool gameStatus;
+	bool mIsWon;
 
 };
 

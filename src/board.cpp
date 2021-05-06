@@ -16,6 +16,8 @@ Board::Board(int width, int height)
     mWidth = width;
     mHeight = height;
     mMines = 10;
+    gameStatus = false;
+    mIsWon = true;
     createBoard();
 }
 
@@ -40,20 +42,32 @@ void Board::createBoard()
         vector<Cell> row;
         for (int x = 0; x < mWidth; ++x)
         {
-            Cell temp;
-            temp.texturePath() = TEXTURE_PATHS[UNCHECKED];
-            row.push_back(temp);
+            Cell current;
+            row.push_back(current); // set texture after push
         }
-        mBoard.push_back(row);
+        mBoard.push_back(row); // pre-emptive push to preserve texture
     }
+    // initTextures();
     layMines();
-    setNumMines();
+    countNeighborMines();
 }
 
 void Board::setMines(int mines)
 {
     mMines = mines;
 }
+
+// void Board::initTextures()
+// {
+//     for (size_t y = 0; y < mBoard.size(); ++y)
+//     {
+//         for (size_t x = 0; x < mBoard[y].size(); ++x)
+//         {
+//             mBoard[y][x].setRectTexture(ASSET_DIR + TEXTURE_PATHS[UNCHECKED]);
+//             mBoard[y][x].getShape().setSize(sf::Vector2f(mWidth, mHeight));
+//         }
+//     }
+// }
 
 void Board::layMines()
 {
@@ -82,7 +96,7 @@ bool Board::checkForMine(int x, int y)
     return getCell(x, y).isMine();
 }
 
-void Board::setNumMines()
+void Board::countNeighborMines()
 {
     for (int y = 0; y < mHeight; ++y)
     {
@@ -185,25 +199,32 @@ void Board::checkCell(int x, int y)
  */
 void Board::checkCell(int x, int y, bool isClicked)
 {
+    // create a pointer to current cell
+    Cell *cellPtr = &getCell(x, y);
     // base case 1: out of bounds
-    if (x < 0 || y < 0 || x >= mWidth || y >= mHeight)
+    if (x < 0 || y < 0 || x >= mWidth || y >= mHeight ||
+        cellPtr->texturePath() == TEXTURE_PATHS[FLAG])
     {
+        cellPtr = nullptr;
         return;
     }
 
-    if (getCell(x, y).texturePath() == TEXTURE_PATHS[FLAG])
-    {
-        return;
-    }
+
+    // if (cellPtr->texturePath() == TEXTURE_PATHS[FLAG])
+    // {
+    //     return;
+    // }
 
     // base case 2: current cell is bomb    
-    if (getCell(x, y).isMine())
+    if (cellPtr->isMine())
     {
         if (isClicked) // is mine, game over
         {
             showMines();
             // expose board
             // end game
+            cellPtr = nullptr;
+            mIsWon = false;
             return;
         }
         return;
@@ -213,14 +234,16 @@ void Board::checkCell(int x, int y, bool isClicked)
     // base case 3: current cell is empty
     else
     {
+        // cellPtr->texturePath() = TEXTURE_PATHS[getCell(x, y).numMines()];
 
-        if (getCell(x, y).numMines() > 0)
+        if (cellPtr->numMines() > 0)
         {
-            getCell(x, y).texturePath() = TEXTURE_PATHS[getCell(x, y).numMines()];
+            cellPtr->texturePath() = TEXTURE_PATHS[getCell(x, y).numMines()];
             return;
         }
 
-        getCell(x, y).texturePath() = TEXTURE_PATHS[EMPTY];
+        // getCell(x, y).setRectTexture(TEXTURE_PATHS[EMPTY]);
+        cellPtr->texturePath() = TEXTURE_PATHS[EMPTY];
         
         
         if (isClicked)
@@ -250,8 +273,7 @@ void Board::checkCell(int x, int y, bool isClicked)
             checkCell(x, y + 1, isClicked);        // check bottom
         }
     }
-
-    // recursive case
+    cellPtr = nullptr;
 }
 
 void Board::showMines()
@@ -286,3 +308,32 @@ void Board::setGameStatus(bool game)
 {
     gameStatus = game;
 }
+
+bool& Board::isWon()
+{
+    return mIsWon;
+}
+
+// bool Board::checkConditions()
+// {
+//     int numCells = (mWidth * mHeight) - mMines;
+//     for (int y = 0; y < mHeight; ++y)
+//     {
+//         for (int x = 0; x < mWidth; ++x)
+//         {
+//             if (mBoard[y][x].texturePath() != TEXTURE_PATHS[UNCHECKED])
+//             {
+//                 --numCells; // decrement, if reaches 0 without clicking mine, game is won
+//             }
+//         }
+//     }
+    
+//     if (numCells == 0)
+//     {
+//         return true;
+//     }
+//     else
+//     {
+//         return false;
+//     }
+// }

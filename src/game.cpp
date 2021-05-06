@@ -17,6 +17,7 @@ Game::Game(int width, int height, int cellSize) : mWindow(sf::VideoMode(width * 
     mWindowHeight = height;
     mWindowWidth = width;
     mCellSize = cellSize;
+    mIsWon = false; // assume victory
 }
 
 void Game::menu()
@@ -126,18 +127,18 @@ void Game::run(int width, int height, int mines)
     sf::Text prompt;
     sf::Font font;
 
-    //Credit - Nasa21 font by USE Mediengestaltung of Berlin
-    font.loadFromFile("assets/title.ttf");
+    // //Credit - Nasa21 font by USE Mediengestaltung of Berlin
+    // font.loadFromFile("assets/title.ttf");
 
-    prompt.setFont(font);
-    prompt.setString("GAME OVER");
-    prompt.setCharacterSize(30);
-    prompt.setFillColor(sf::Color::Blue);
-    prompt.setStyle(sf::Text::Bold | sf::Text::Underlined);
-    prompt.setOutlineColor(sf::Color::Black);
-    prompt.setOutlineThickness(3.0f);
+    // prompt.setFont(font);
+    // prompt.setString("GAME OVER");
+    // prompt.setCharacterSize(30);
+    // prompt.setFillColor(sf::Color::Blue);
+    // prompt.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    // prompt.setOutlineColor(sf::Color::Black);
+    // prompt.setOutlineThickness(3.0f);
 
-    prompt.setPosition(((mWindow.getSize().x) - prompt.getGlobalBounds().width) / 2, mWindowHeight / 2);
+    // prompt.setPosition(((mWindow.getSize().x) - prompt.getGlobalBounds().width) / 2, mWindowHeight / 2);
 
     sf::Event event;
 
@@ -165,28 +166,34 @@ void Game::run(int width, int height, int mines)
                     else
                     {
                         mBoard.checkCell(mouseX, mouseY);
+                        // mIsWon = mBoard.checkConditions();
+                        // if (mIsWon)
+                        // {
+                        //     mBoard.setGameStatus(true);
+                        // }
                     }
                 }
 
                 if (event.mouseButton.button == sf::Mouse::Right)
                 {
-                    Cell *temp = &mBoard.getCell(mouseX, mouseY);
+                    Cell *cellPtr = &mBoard.getCell(mouseX, mouseY);
                     if(!mBoard.noFlags()) // if player still has flagss
                     {
-                        if (temp->texturePath() == TEXTURE_PATHS[UNCHECKED]) // if cell is unchecked
+                        if (cellPtr->texturePath() == TEXTURE_PATHS[UNCHECKED]) // if cell is unchecked
                         {
-                            temp->texturePath() = TEXTURE_PATHS[FLAG]; // add flag to board
+                            cellPtr->texturePath() = TEXTURE_PATHS[FLAG]; // add flag to board
                             mBoard.subtractFlag(); // subtract flag from player's number of usable flags
                         }
-                        else if (temp->texturePath() == TEXTURE_PATHS[FLAG]) // if cell is flagged
+                        else if (cellPtr->texturePath() == TEXTURE_PATHS[FLAG]) // if cell is flagged
                         {
-                            temp->texturePath() = TEXTURE_PATHS[UNCHECKED]; // remove flag
+                            cellPtr->texturePath() = TEXTURE_PATHS[UNCHECKED]; // remove flag
                             mBoard.addFlag(); // add flag to player's number of usable flags
                         }
                     }
-                    else if (temp->texturePath() == TEXTURE_PATHS[FLAG]) // if player has no flags left and cell is flagged
+                    else if (cellPtr->texturePath() == TEXTURE_PATHS[FLAG]) // if player has no flags left and cell is flagged
                     {
-                        temp->texturePath() = TEXTURE_PATHS[UNCHECKED]; // remove flag
+                        cellPtr->texturePath() = TEXTURE_PATHS[UNCHECKED];
+                        // temp->texturePath() = TEXTURE_PATHS[UNCHECKED]; // remove flag
                         mBoard.addFlag(); // add flag to player's number of usable flags
                     }
                 }
@@ -194,28 +201,50 @@ void Game::run(int width, int height, int mines)
         }
         mWindow.clear();
 
-        sf::Texture texture;
-        // texture.setSmooth(true);
         // sf::Sprite sprite;
-        sf::RectangleShape sprite;
-        sprite.setOutlineThickness(.1f);
-        sprite.setOutlineColor(sf::Color::Black);
-        sprite.setSize(sf::Vector2f(mCellSize, mCellSize));
+        // sf::RectangleShape sprite;
+        // sprite.setOutlineThickness(.1f);
+        // sprite.setOutlineColor(sf::Color::Black);
+        // sprite.setSize(sf::Vector2f(mCellSize, mCellSize));
         // sprite.setScale(sf::Vector2f(.4, .4));
+        sf::Texture texture;
+        texture.setSmooth(true);
+        sf::RectangleShape rect;
+        rect.setSize(sf::Vector2f(mCellSize, mCellSize));
 
         for (int y = 0; y < mWindowHeight; ++y)
         {
             for (int x = 0; x < mWindowWidth; ++x)
             {
-                texture.loadFromFile(ASSET_DIR + mBoard.getCell(x, y).texturePath());
-                sprite.setPosition(sf::Vector2f(x * mCellSize, y * mCellSize));
-                sprite.setTexture(&texture);
-                mWindow.draw(sprite);
+                Cell *cellPtr = &mBoard.getCell(x, y);
+                texture.loadFromFile(ASSET_DIR + cellPtr->texturePath());
+                rect.setPosition(sf::Vector2f(x * mCellSize, y * mCellSize));
+                rect.setTexture(&texture);
+                cellPtr->getShape().setPosition(sf::Vector2f(x * mCellSize, y * mCellSize));
+                mWindow.draw(rect);
             }
         }
 
         if (mBoard.getGameStatus())
         {
+                //Credit - Nasa21 font by USE Mediengestaltung of Berlin
+            font.loadFromFile("assets/title.ttf");
+
+            prompt.setFont(font);
+            prompt.setString("GAME OVER");
+            prompt.setCharacterSize(30);
+            prompt.setFillColor(sf::Color::Blue);
+            prompt.setStyle(sf::Text::Bold | sf::Text::Underlined);
+            prompt.setOutlineColor(sf::Color::Black);
+            prompt.setOutlineThickness(3.0f);
+
+            prompt.setPosition(((mWindow.getSize().x) - prompt.getGlobalBounds().width) / 2, mWindowHeight / 2);
+            // if (mIsWon)
+            // {
+            //     prompt.setString("YOU WIN!!!");
+            //     prompt.setFillColor(sf::Color::Green);
+            // }
+            
             mWindow.draw(prompt);
         }
         
