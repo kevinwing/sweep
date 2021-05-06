@@ -47,7 +47,6 @@ private:
     int mHeight;
 	int mFlags;
 	vector<vector<Cell>> mBoard;
-<<<<<<< HEAD
 	
 	void showMines();
 	void countNeighborMines();
@@ -58,10 +57,6 @@ private:
 
 	bool gameStatus;
 	bool mIsWon;
-=======
-	void checkCell(int x, int y, bool isClicked);
-	bool gameStatus = false;
->>>>>>> master
 
 };
 

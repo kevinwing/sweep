@@ -73,7 +73,6 @@ void Board::setMines(int mines)
     mMines = mines;
 }
 
-<<<<<<< HEAD
 // void Board::initTextures()
 // {
 //     for (size_t y = 0; y < mBoard.size(); ++y)
@@ -86,12 +85,6 @@ void Board::setMines(int mines)
 //     }
 // }
 
-=======
-/**
- * @brief Randomly assigns the isMine() quality to certain cells on the board,
- * "laying" them
- */
->>>>>>> master
 void Board::layMines()
 {
     srand(time(NULL));
@@ -127,15 +120,7 @@ bool Board::checkForMine(int x, int y)
     return getCell(x, y).isMine();
 }
 
-<<<<<<< HEAD
 void Board::countNeighborMines()
-=======
-/**
- * @brief Marks a cell with the number of mines adjacent to it once clicked
- * 
- */
-void Board::setNumMines()
->>>>>>> master
 {
     for (int y = 0; y < mHeight; ++y)
     {
@@ -292,15 +277,11 @@ void Board::checkCell(int x, int y, bool isClicked)
     {
         if (isClicked) // is mine, game over
         {
-<<<<<<< HEAD
             showMines();
             // expose board
             // end game
             cellPtr = nullptr;
             mIsWon = false;
-=======
-            showMines(); // expose board and end game
->>>>>>> master
             return;
         }
         return;

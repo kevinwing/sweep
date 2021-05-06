@@ -148,7 +148,6 @@ void Game::run(int width, int height, int mines)
     // //Credit - Nasa21 font by USE Mediengestaltung of Berlin
     // font.loadFromFile("assets/title.ttf");
 
-<<<<<<< HEAD
     // prompt.setFont(font);
     // prompt.setString("GAME OVER");
     // prompt.setCharacterSize(30);
@@ -158,16 +157,6 @@ void Game::run(int width, int height, int mines)
     // prompt.setOutlineThickness(3.0f);
 
     // prompt.setPosition(((mWindow.getSize().x) - prompt.getGlobalBounds().width) / 2, mWindowHeight / 2);
-=======
-    prompt.setFont(font);
-    prompt.setString("GAME OVER");
-    prompt.setCharacterSize(30);
-    prompt.setFillColor(sf::Color::Blue);
-    prompt.setStyle(sf::Text::Bold | sf::Text::Underlined);
-    prompt.setOutlineColor(sf::Color::Black);
-    prompt.setOutlineThickness(3.0f);
-    prompt.setPosition(((mWindow.getSize().x) - prompt.getGlobalBounds().width) / 2, mWindowHeight / 2);
->>>>>>> master
 
     sf::Event event;
 
@@ -229,7 +218,6 @@ void Game::run(int width, int height, int mines)
         }
         mWindow.clear();
 
-<<<<<<< HEAD
         // sf::Sprite sprite;
         // sf::RectangleShape sprite;
         // sprite.setOutlineThickness(.1f);
@@ -240,13 +228,6 @@ void Game::run(int width, int height, int mines)
         texture.setSmooth(true);
         sf::RectangleShape rect;
         rect.setSize(sf::Vector2f(mCellSize, mCellSize));
-=======
-        sf::Texture texture;
-        sf::RectangleShape sprite;
-        sprite.setOutlineThickness(.1f);
-        sprite.setOutlineColor(sf::Color::Black);
-        sprite.setSize(sf::Vector2f(mCellSize, mCellSize));
->>>>>>> master
 
         for (int y = 0; y < mWindowHeight; ++y)
         {
