@@ -24,7 +24,7 @@ Game::Game(int width, int height, int cellSize) : mWindow(sf::VideoMode(width * 
     mWindowHeight = height;
     mWindowWidth = width;
     mCellSize = cellSize;
-    mIsWon = false; // assume victory
+    mIsWon = true; // assume victory
 }
 
 /**
@@ -128,6 +128,7 @@ void Game::run(int width, int height, int mines)
 {
     mWindowWidth = width;
     mWindowHeight = height;
+    mBoard.cellsRemaining() = mWindowWidth * mWindowHeight;
     mBoard.setMines(mines);
     mBoard.setNumFlags(mines); // flags is the same number of mines
     mBoard.setSize(width, height);
@@ -159,9 +160,9 @@ void Game::run(int width, int height, int mines)
     // prompt.setPosition(((mWindow.getSize().x) - prompt.getGlobalBounds().width) / 2, mWindowHeight / 2);
 
     sf::Event event;
-
     while(mWindow.isOpen())
     {
+        bool isOver = false;
         while(mWindow.pollEvent(event))
         {
             if(event.type == sf::Event::Closed)
@@ -182,12 +183,16 @@ void Game::run(int width, int height, int mines)
                     }
                     else
                     {
+                        // check each cell in board expanding from clicked cell
                         mBoard.checkCell(mouseX, mouseY);
-                        // mIsWon = mBoard.checkConditions();
-                        // if (mIsWon)
-                        // {
-                        //     mBoard.setGameStatus(true);
-                        // }
+                        // std::cout << "Num Cells: " << mBoard.mCellsRemaining << '\n';
+                        // get game play condition
+                        isOver = mBoard.checkConditions();
+                        if (isOver)
+                        {
+                            mBoard.setGameStatus(true);
+                            mBoard.showMines();
+                        }
                     }
                 }
 
@@ -250,17 +255,18 @@ void Game::run(int width, int height, int mines)
             prompt.setFont(font);
             prompt.setString("GAME OVER");
             prompt.setCharacterSize(30);
-            prompt.setFillColor(sf::Color::Blue);
+            prompt.setFillColor(sf::Color::Red);
             prompt.setStyle(sf::Text::Bold | sf::Text::Underlined);
             prompt.setOutlineColor(sf::Color::Black);
             prompt.setOutlineThickness(3.0f);
-
             prompt.setPosition(((mWindow.getSize().x) - prompt.getGlobalBounds().width) / 2, mWindowHeight / 2);
-            // if (mIsWon)
-            // {
-            //     prompt.setString("YOU WIN!!!");
-            //     prompt.setFillColor(sf::Color::Green);
-            // }
+            
+            // display winning message
+            if (mBoard.isWon())
+            {
+                prompt.setString("YOU WIN!!!");
+                prompt.setFillColor(sf::Color::Green);
+            }
             
             mWindow.draw(prompt);
         }

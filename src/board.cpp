@@ -21,6 +21,7 @@ Board::Board(int width, int height)
     mWidth = width;
     mHeight = height;
     mMines = 10;
+    mCellsRemaining = width * height;
     gameStatus = false;
     mIsWon = true;
     createBoard();
@@ -36,6 +37,8 @@ void Board::setSize(int width, int height)
 {
     mWidth = width;
     mHeight = height;
+    mCellsRemaining = width * height;
+    mIsWon = true;
     mBoard.clear();
     createBoard();
 }
@@ -103,13 +106,12 @@ void Board::layMines()
 }
 
 /**
- * @brief Recursively checks around a clicked cell to find out
- * how many mines are adjacent to it
+ * @brief Checks a cell and returns true if cell is a mine, false if not
  * 
  * @param x cell x-coordinate
  * @param y cell y-coordinate
- * @return true 
- * @return false 
+ * @return true if cell is a mine
+ * @return false if cell is not a mine
  */
 bool Board::checkForMine(int x, int y)
 {
@@ -258,28 +260,30 @@ void Board::checkCell(int x, int y, bool isClicked)
 {
     // create a pointer to current cell
     Cell *cellPtr = &getCell(x, y);
-    // base case 1: out of bounds
+    // base case 1: out of bounds, cell is a flag of cell is exposed already
     if (x < 0 || y < 0 || x >= mWidth || y >= mHeight ||
-        cellPtr->texturePath() == TEXTURE_PATHS[FLAG])
+        cellPtr->texturePath() == TEXTURE_PATHS[FLAG] ||
+        cellPtr->texturePath() != TEXTURE_PATHS[UNCHECKED])
     {
         cellPtr = nullptr;
         return;
     }
 
+    --mCellsRemaining; // decrement number of cells remaining unchecked
 
     // if (cellPtr->texturePath() == TEXTURE_PATHS[FLAG])
     // {
     //     return;
     // }
+    // mIsWon = true;
 
-    // base case 2: current cell is bomb    
+    // base case 2: current cell is mine
     if (cellPtr->isMine())
     {
         if (isClicked) // is mine, game over
         {
+            cellPtr->texturePath() = TEXTURE_PATHS[EXPLODED];
             showMines();
-            // expose board
-            // end game
             cellPtr = nullptr;
             mIsWon = false;
             return;
@@ -287,7 +291,7 @@ void Board::checkCell(int x, int y, bool isClicked)
         return;
     }
 
-    // base case 3: current cell is empty
+    // recursive case: current cell is unchecked and not a mine
     else
     {
         // cellPtr->texturePath() = TEXTURE_PATHS[getCell(x, y).numMines()];
@@ -302,13 +306,12 @@ void Board::checkCell(int x, int y, bool isClicked)
         cellPtr->texturePath() = TEXTURE_PATHS[EMPTY];
         
         
+        // set to false before recursive calls
         if (isClicked)
         {
             isClicked = false;
         }
       
-        // implement memoization for is the cell already visited
-
         if ((x - 1) >= 0 && getCell(x - 1, y).texturePath() == TEXTURE_PATHS[UNCHECKED])
         {
             checkCell(x - 1, y, isClicked);        // check left cell
@@ -348,10 +351,18 @@ void Board::showMines()
                 {
                     getCell(x, y).texturePath() = TEXTURE_PATHS[NOTMINE];
                 }
+                else
+                {
+                    getCell(x, y).texturePath() = TEXTURE_PATHS[MINE];
+                }
+                
             }
             else if(getCell(x, y).isMine())
             {
-               getCell(x, y).texturePath() = TEXTURE_PATHS[EXPLODED];
+                if (getCell(x, y).texturePath() != TEXTURE_PATHS[EXPLODED])
+                {
+                    getCell(x, y).texturePath() = TEXTURE_PATHS[MINE];
+                }
             }
         }
     }
@@ -385,26 +396,16 @@ bool& Board::isWon()
     return mIsWon;
 }
 
-// bool Board::checkConditions()
-// {
-//     int numCells = (mWidth * mHeight) - mMines;
-//     for (int y = 0; y < mHeight; ++y)
-//     {
-//         for (int x = 0; x < mWidth; ++x)
-//         {
-//             if (mBoard[y][x].texturePath() != TEXTURE_PATHS[UNCHECKED])
-//             {
-//                 --numCells; // decrement, if reaches 0 without clicking mine, game is won
-//             }
-//         }
-//     }
-    
-//     if (numCells == 0)
-//     {
-//         return true;
-//     }
-//     else
-//     {
-//         return false;
-//     }
-// }
+bool Board::checkConditions()
+{
+    if ((mCellsRemaining - mMines) > 0)
+    {
+        return false;
+    }
+    return true;
+}
+
+int& Board::cellsRemaining()
+{
+    return mCellsRemaining;
+}
